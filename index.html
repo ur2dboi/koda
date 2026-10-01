@@ -226,28 +226,72 @@
  .stat-num{ font-size:32px; font-weight:900; letter-spacing:-0.04em; color:white }
  .stat-label{ font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; opacity:0.7; max-width:16ch; line-height:1.3; text-align:right; color:white }
 
- /* MANIFESTO - ,  */
+ /* MANIFESTO - REDESIGNED - NO EMPTY, HUGE STYLE */
  .manifesto{
-  background:white; padding:48px 24px 32px 24px;
-  display:grid; grid-template-columns: 140px 1fr; gap:24px;
-  border-bottom:2px solid black; min-height:300px;
+  background:#FFFFFF; padding:0; border-bottom:2px solid black; position:relative; overflow:hidden;
  }
- .manifesto-label{ font-size:10px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; opacity:1; color:black; background:var(--paper); padding:8px 10px; align-self:start; border:1px solid black }
- .manifesto h2{ font-size:clamp(32px, 5.6vw, 84px); font-weight:800; letter-spacing:-0.05em; line-height:0.92; max-width:18ch; color:black }
- .manifesto h2 .switch{ color:var(--purple); position:relative; display:inline-block; min-width:4.8ch; cursor:pointer; border-bottom:4px solid var(--purple); padding-bottom:2px }
- .manifesto h2 .switch span{ position:absolute; left:0; top:0; opacity:0; transform:translateY(100%); transition: all 0.5s cubic-bezier(0.77,0,0.175,1); white-space:nowrap }
- .manifesto h2 .switch span.active{ position:relative; opacity:1; transform:translateY(0) }
+ .manifesto-top{
+  display:grid; grid-template-columns: 140px 1fr; gap:32px;
+  padding:56px 24px 40px 24px; align-items:start;
+ }
+ .manifesto-label{
+  font-size:10px; font-weight:900; letter-spacing:0.16em; text-transform:uppercase;
+  color:black; background:white; padding:8px 12px; align-self:start;
+  border:1.5px solid black; box-shadow:3px 3px 0 black; display:inline-block;
+  transform:rotate(-1deg); transition:all 0.3s;
+ }
+ .manifesto-label:hover{ transform:rotate(0deg) translate(-1px, -1px); box-shadow:4px 4px 0 var(--purple) }
+ .manifesto h2{
+  font-size:clamp(36px, 6.2vw, 88px); font-weight:900; letter-spacing:-0.05em; line-height:0.88;
+  max-width:14ch; color:black; position:relative;
+ }
+ .manifesto h2 .line{ display:block; overflow:hidden }
+ .manifesto h2 .line span{ display:inline-block; transform:translateY(110%); transition: transform 0.9s cubic-bezier(0.77,0,0.175,1) }
+ .manifesto.in-view h2 .line span{ transform:translateY(0) }
+ .manifesto h2 .line:nth-child(2) span{ transition-delay:0.12s }
+ .manifesto h2 .switch{
+  color:var(--purple); position:relative; display:inline-block; min-width:4.2ch; cursor:pointer;
+  font-weight:900;
+ }
+ .manifesto h2 .switch span{
+  position:absolute; left:0; top:0; opacity:0; transform:translateY(100%) rotate(2deg);
+  transition: all 0.6s cubic-bezier(0.77,0,0.175,1); white-space:nowrap;
+ }
+ .manifesto h2 .switch span.active{ position:relative; opacity:1; transform:translateY(0) rotate(0) }
+ .manifesto h2 .switch::after{
+  content:""; position:absolute; left:0; bottom:-6px; width:100%; height:4px;
+  background:var(--purple); transform:scaleX(0); transform-origin:left;
+  transition: transform 0.8s cubic-bezier(0.77,0,0.175,1) 0.8s;
+ }
+ .manifesto.in-view h2 .switch::after{ transform:scaleX(1) }
  .manifesto-copy{
-  grid-column:2; margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:24px;
-  border-top:2px solid black; padding-top:24px; background:#fafaf8; padding:24px; border:1px solid var(--border-light);
+  display:grid; grid-template-columns:1.15fr 0.85fr; gap:0;
+  border-top:2px solid black; background:#FAFAF8; margin:0 24px 24px 24px;
+  border:1.5px solid rgba(0,0,0,0.12); position:relative;
  }
- .manifesto-copy p{ font-size:15px; line-height:1.6; font-weight:500; max-width:42ch; color:black }
- .manifesto-copy .highlight{
-  font-size:12px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase;
-  background:black; color:white; padding:12px 16px; align-self:start; display:inline-block; margin-top:12px;
-  transition: all 0.3s; cursor:pointer; border:2px solid black;
+ .manifesto-copy::before{
+  content:""; position:absolute; top:0; left:0; width:100%; height:3px;
+  background:linear-gradient(90deg, var(--purple), #EC4899); transform:scaleX(0); transform-origin:left;
+  transition: transform 1s cubic-bezier(0.77,0,0.175,1) 0.6s;
  }
- .manifesto-copy .highlight:hover{ background:var(--purple); border-color:var(--purple); transform:translateY(-2px) }
+ .manifesto.in-view .manifesto-copy::before{ transform:scaleX(1) }
+ .manifesto-copy-left{ padding:28px 24px; border-right:1px solid rgba(0,0,0,0.12); background:white }
+ .manifesto-copy-left p{ font-size:15.5px; line-height:1.65; font-weight:500; max-width:48ch; color:#111; letter-spacing:-0.01em }
+ .manifesto-copy-right{
+  padding:28px 24px; display:flex; flex-direction:column; justify-content:space-between;
+  background:#FFFFFF; gap:24px;
+ }
+ .manifesto-copy-right p{ font-size:13.5px; line-height:1.6; font-weight:500; color:rgba(0,0,0,0.6); max-width:36ch }
+ .manifesto-copy-right .highlight{
+  font-size:11px; font-weight:900; letter-spacing:0.14em; text-transform:uppercase;
+  background:black; color:white; padding:14px 18px; align-self:start;
+  display:inline-flex; align-items:center; gap:10px; cursor:pointer;
+  border:2px solid black; transition: all 0.4s cubic-bezier(0.77,0,0.175,1);
+  box-shadow:3px 3px 0 black;
+ }
+ .manifesto-copy-right .highlight:hover{ background:var(--purple); border-color:var(--purple); transform:translate(-2px, -2px); box-shadow:5px 5px 0 black }
+ .manifesto-copy-right .highlight .arrow{ transition: transform 0.4s }
+ .manifesto-copy-right .highlight:hover .arrow{ transform:translateX(4px) }
 
  /* STRIP -  DRAGGABLE */
  .strip{
@@ -407,8 +451,10 @@
   .stats-ticker{ grid-template-columns:1fr 1fr }
   .stat-cell:nth-child(2), .stat-cell:nth-child(4){ border-right:0 }
   .stat-cell:nth-child(n+3){ border-top:1px solid rgba(255,255,255,0.15) }
-  .manifesto{ grid-template-columns:1fr; padding:32px 16px }
-  .manifesto-copy{ grid-column:1; grid-template-columns:1fr; gap:16px }
+  .manifesto-top{ grid-template-columns:1fr; gap:16px; padding:32px 16px 24px 16px }
+  .manifesto-copy{ grid-template-columns:1fr; margin:0 16px 16px 16px }
+  .manifesto-copy-left{ border-right:0; border-bottom:1px solid rgba(0,0,0,0.12); padding:20px 16px }
+  .manifesto-copy-right{ padding:20px 16px }
   .strip-item{ width:72vw }
   .work-head{ padding:16px }
   .work-grid{ grid-template-columns:1fr }
@@ -485,16 +531,23 @@
  <div class="stat-cell"><div class="stat-num">2H</div><div class="stat-label">Avg response time PH daytime</div></div>
 </div>
 
-<section class="manifesto">
- <div class="manifesto-label">( Our thing )</div>
- <div>
-  <h2>We make social that matters to <span class="switch" id="switch"><span class="active">people.</span><span>brands.</span><span>culture.</span><span>feeds.</span><span>clients.</span><span>community.</span><span>algorithms.</span></span></h2>
-  <div class="manifesto-copy">
+<section class="manifesto" id="manifesto">
+ <div class="manifesto-top">
+  <div class="manifesto-label">( Our thing )</div>
+  <h2>
+   <span class="line"><span>We make social</span></span>
+   <span class="line"><span>that matters to <span class="switch" id="switch"><span class="active">people.</span><span>brands.</span><span>culture.</span><span>feeds.</span><span>clients.</span><span>community.</span><span>algorithms.</span></span></span></span>
+  </h2>
+ </div>
+ <div class="manifesto-copy">
+  <div class="manifesto-copy-left">
    <p>Anyone can post. Creating social that resonates with culture and drives business is the hard part. It takes taste, timing, and human judgment. At koda, we blend strategy, creative, and community management to build brands that don't just exist — they live on social.</p>
+  </div>
+  <div class="manifesto-copy-right">
    <div>
-    <p style="opacity:1; color:rgba(0,0,0,0.6)">Full-stack social. From audits to content pillars to comments that convert. No fluff, just growth.</p>
-    <button class="highlight inquiry-trigger" data-cursor="inquiry">See how we work →</button>
+    <p>Full-stack social. From audits to content pillars to comments that convert. No fluff, just growth.</p>
    </div>
+   <button class="highlight inquiry-trigger" data-cursor="inquiry">SEE HOW WE WORK <span class="arrow">→</span></button>
   </div>
  </div>
 </section>
@@ -709,7 +762,7 @@
   el.addEventListener('mouseleave', ()=> cursor.classList.remove('hover'));
  });
 
- // Rotating words - 
+ // Rotating words + manifesto reveal
  const spans=document.querySelectorAll('#switch span');
  let idx=0;
  setInterval(()=>{
@@ -722,6 +775,21 @@
   idx=(idx+1)%spans.length;
   spans[idx].classList.add('active');
  });
+ // Manifesto in-view animation
+ const manifesto=document.getElementById('manifesto');
+ if(manifesto){
+  const obs=new IntersectionObserver((entries)=>{
+   entries.forEach(e=>{
+    if(e.isIntersecting){
+     manifesto.classList.add('in-view');
+     obs.unobserve(manifesto);
+    }
+   });
+  }, {threshold:0.2});
+  obs.observe(manifesto);
+  // Trigger immediately if already visible
+  setTimeout(()=> manifesto.classList.add('in-view'), 600);
+ }
 
  // Strip builder + draggable - 
  const stripImgs=['images/work-coffee.jpg','images/work-fashion.jpg','images/work-beauty.jpg','images/work-app.jpg','images/hero-k.jpg','images/showreel.jpg'];
