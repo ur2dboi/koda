@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>koda — Social that matters.</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#000000;
+    --white:#FFFFFF;
+    --paper:#F5F3EF;
+    --purple:#7C3AED;
+    --purple-deep:#3D1E7A;
+    --purple-light:#B794F6;
+    --magenta:#A855F7;
+    --border: #000;
+    --border-light: rgba(0,0,0,0.12);
+    --border-light-white: rgba(255,255,255,0.15);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth; background:var(--white)}
+  body{
+    font-family:"Inter", Helvetica, Arial, sans-serif;
+    background:var(--white);
+    color:var(--black);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    line-height:1;
+  }
+  a{color:inherit;text-decoration:none}
+  button{border:0;background:none;cursor:pointer;font:inherit}
+
+  /* NAV - Huge style */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 22px 32px;
+    mix-blend-mode:difference;
+    color:white;
+  }
+  .logo{
+    font-weight:900; font-size:26px; letter-spacing:-0.04em; line-height:1;
+  }
+  .logo span{ font-weight:400; opacity:0.6 }
+  .nav-right{
+    display:flex; gap:28px; align-items:center;
+    font-size:13px; font-weight:600; letter-spacing:0.08em;
+  }
+  .menu-btn{
+    width:44px; height:44px; border:1px solid white; border-radius:50%;
+    display:grid; place-items:center; font-size:18px;
+  }
+
+  /* HERO - Exact Huge */
+  .hero{
+    position:relative;
+    width:100%;
+    height:92vh;
+    min-height:620px;
+    background: var(--purple);
+    overflow:hidden;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding: 0 2.5vw 3vw 2.5vw;
+  }
+  .hero-bg{
+    position:absolute; inset:0;
+    z-index:0;
+  }
+  .hero-bg img{
+    width:100%; height:100%; object-fit:cover;
+    opacity:1;
+  }
+  .hero-bg::after{
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(61,30,122,0.1) 0%, rgba(61,30,122,0.6) 100%);
+  }
+  .hero-top{
+    position:absolute; top:0; left:0; right:0;
+    padding: 120px 2.5vw 0 2.5vw;
+    z-index:2;
+    pointer-events:none;
+  }
+  .hero h1{
+    position:relative; z-index:2;
+    font-size: clamp(80px, 15vw, 220px);
+    font-weight:900;
+    letter-spacing:-0.06em;
+    line-height:0.85;
+    color:var(--white);
+  }
+  .hero-bottom{
+    position:relative; z-index:2;
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:4vw;
+    color:var(--white);
+  }
+  .hero-bottom p{
+    font-size: clamp(14px, 1.15vw, 18px);
+    line-height:1.45;
+    max-width:36ch;
+    font-weight:500;
+    opacity:0.95;
+  }
+  .hero-bottom .side{
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; opacity:0.7;
+    writing-mode:vertical-rl; transform:rotate(180deg);
+    display:none;
+  }
+
+  /* SHOWREEL - Huge style */
+  .showreel{
+    position:relative;
+    width:100%;
+    height:86vh;
+    min-height:520px;
+    background:var(--black);
+    overflow:hidden;
+    cursor:pointer;
+  }
+  .showreel img{
+    width:100%; height:100%; object-fit:cover; opacity:0.85;
+    transition: transform 0.8s cubic-bezier(0.77,0,0.175,1), opacity 0.4s;
+  }
+  .showreel:hover img{ transform:scale(1.03); opacity:0.75 }
+  .showreel-center{
+    position:absolute; inset:0;
+    display:grid; place-items:center;
+    z-index:2;
+  }
+  .play-btn{
+    display:flex; align-items:center; gap:20px;
+    color:var(--white);
+  }
+  .play-circle{
+    width:88px; height:88px; border-radius:50%;
+    background:var(--white); color:var(--black);
+    display:grid; place-items:center;
+    font-size:20px; font-weight:900;
+    transition: transform 0.4s cubic-bezier(0.77,0,0.175,1);
+  }
+  .showreel:hover .play-circle{ transform:scale(1.1) }
+  .play-text{
+    font-size: clamp(20px, 2.2vw, 36px);
+    font-weight:800; letter-spacing:-0.03em;
+  }
+
+  /* MANIFESTO - Huge "We make things that matter..." */
+  .manifesto{
+    background:var(--white);
+    padding: 9vw 2.5vw 7vw 2.5vw;
+    border-bottom:1px solid var(--border-light);
+  }
+  .manifesto-inner{
+    max-width: 1600px;
+  }
+  .manifesto h2{
+    font-size: clamp(36px, 6.2vw, 96px);
+    font-weight:800;
+    letter-spacing:-0.05em;
+    line-height:0.9;
+    max-width: 16ch;
+  }
+  .manifesto h2 .switch{
+    display:inline-block;
+    position:relative;
+    color:var(--purple);
+  }
+  .manifesto h2 .switch span{
+    display:inline-block;
+    position:absolute; left:0; top:0;
+    opacity:0; transform:translateY(100%);
+    transition: all 0.6s cubic-bezier(0.77,0,0.175,1);
+    white-space:nowrap;
+  }
+  .manifesto h2 .switch span.active{
+    position:relative; opacity:1; transform:translateY(0);
+  }
+  .manifesto h2 .switch::after{
+    content:""; position:absolute; left:0; bottom:-4px; width:100%; height:4px; background:var(--purple);
+    transform:scaleX(0); transform-origin:left; transition: transform 0.6s 0.3s;
+  }
+  .manifesto h2 .switch.active::after{ transform:scaleX(1) }
+  .manifesto-bottom{
+    margin-top:4vw;
+    display:grid; grid-template-columns: 1fr 1fr;
+    gap:4vw;
+    border-top:1px solid var(--border-light);
+    padding-top:2.5vw;
+  }
+  .manifesto-bottom p{
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height:1.6;
+    max-width:42ch;
+    font-weight:500;
+  }
+  .manifesto-label{
+    font-size:11px; letter-spacing:0.18em; text-transform:uppercase; font-weight:800; opacity:0.4;
+  }
+
+  /* IMAGE STRIP - Huge scrolling images */
+  .strip{
+    background:var(--white);
+    overflow:hidden;
+    border-bottom:1px solid var(--border-light);
+    padding: 1.2vw 0;
+  }
+  .strip-track{
+    display:flex; gap:1.2vw;
+    animation: scrollStrip 60s linear infinite;
+    will-change:transform;
+    width:max-content;
+  }
+  .strip-item{
+    width:32vw; min-width:320px; aspect-ratio:16/10;
+    background:var(--paper);
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .strip-item img{ width:100%; height:100%; object-fit:cover; }
+  @keyframes scrollStrip{
+    from{ transform:translateX(0) }
+    to{ transform:translateX(-50%) }
+  }
+
+  /* LOGOS - Huge style */
+  .logos{
+    background:var(--white);
+    padding: 2vw 2.5vw;
+    border-bottom:1px solid var(--border-light);
+    display:grid; grid-template-columns: repeat(6, 1fr);
+    gap:1px;
+    background:var(--border-light);
+  }
+  .logo-cell{
+    background:var(--white);
+    aspect-ratio: 3/2;
+    display:grid; place-items:center;
+    padding:1.5vw;
+    font-size:11px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; opacity:0.6;
+  }
+
+  /* OUR WORK - Huge case studies */
+  .work{
+    background:var(--white);
+    padding: 5vw 2.5vw 0 2.5vw;
+  }
+  .work-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--black);
+    padding-bottom:1.5vw; margin-bottom:2.5vw;
+  }
+  .work-head h3{
+    font-size: clamp(28px, 4vw, 64px); font-weight:800; letter-spacing:-0.04em;
+  }
+  .work-head span{
+    font-size:11px; letter-spacing:0.16em; text-transform:uppercase; font-weight:800; opacity:0.5;
+  }
+  .work-grid{
+    display:grid; grid-template-columns: 1fr 1fr;
+    gap:1px;
+    background:var(--border-light);
+    border:1px solid var(--border-light);
+  }
+  .work-card{
+    background:var(--white);
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+  }
+  .work-card-image{
+    aspect-ratio:16/11;
+    overflow:hidden;
+    background:var(--paper);
+  }
+  .work-card-image img{
+    width:100%; height:100%; object-fit:cover;
+    transition: transform 0.9s cubic-bezier(0.77,0,0.175,1);
+  }
+  .work-card:hover .work-card-image img{ transform:scale(1.06) }
+  .work-card-info{
+    padding: 1.6vw 1.6vw 2vw 1.6vw;
+    display:flex; justify-content:space-between; gap:2vw;
+  }
+  .work-card-title{
+    font-size: clamp(18px, 1.8vw, 28px); font-weight:800; letter-spacing:-0.03em; line-height:1;
+  }
+  .work-card-desc{
+    font-size:13px; line-height:1.5; max-width:28ch; opacity:0.6; font-weight:500;
+  }
+  .work-card-tag{
+    position:absolute; top:1.2vw; left:1.2vw; z-index:2;
+    background:var(--white); color:var(--black);
+    font-size:10px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase;
+    padding:6px 10px;
+  }
+
+  /* SOLUTIONS - Huge black section */
+  .solutions{
+    background:var(--black);
+    color:var(--white);
+    padding: 6vw 2.5vw;
+  }
+  .solutions-head{
+    display:grid; grid-template-columns: 1fr 1fr;
+    gap:4vw;
+    margin-bottom:5vw;
+  }
+  .solutions-head h3{
+    font-size: clamp(36px, 5vw, 80px); font-weight:800; letter-spacing:-0.05em; line-height:0.9;
+  }
+  .solutions-head p{
+    font-size: clamp(14px, 1.15vw, 18px); line-height:1.5; opacity:0.6; max-width:38ch; padding-top:1vw;
+  }
+  .solutions-list{
+    border-top:1px solid var(--border-light-white);
+  }
+  .solution-row{
+    display:grid; grid-template-columns: 80px 1fr 1fr;
+    gap:2vw;
+    padding: 2vw 0;
+    border-bottom:1px solid var(--border-light-white);
+    transition: background 0.3s;
+    cursor:pointer;
+  }
+  .solution-row:hover{ background: rgba(255,255,255,0.04) }
+  .solution-num{
+    font-size:12px; font-weight:800; letter-spacing:0.1em; opacity:0.4; padding-top:6px;
+  }
+  .solution-title{
+    font-size: clamp(20px, 2.2vw, 32px); font-weight:800; letter-spacing:-0.03em; line-height:1;
+  }
+  .solution-desc{
+    font-size:14px; line-height:1.5; opacity:0.55; max-width:36ch;
+  }
+
+  /* CTA - Huge Work + Contact */
+  .cta{
+    background:var(--black);
+    color:var(--white);
+    border-top:1px solid var(--border-light-white);
+    display:grid; grid-template-columns: 1fr 1fr;
+  }
+  .cta-block{
+    padding: 4vw 2.5vw;
+    border-right:1px solid var(--border-light-white);
+    min-height:38vw;
+    display:flex; flex-direction:column; justify-content:space-between;
+    position:relative; overflow:hidden;
+    transition: background 0.4s;
+  }
+  .cta-block:last-child{ border-right:0 }
+  .cta-block:hover{ background:#111 }
+  .cta-block h4{
+    font-size: clamp(48px, 8vw, 120px); font-weight:900; letter-spacing:-0.06em; line-height:0.85;
+  }
+  .cta-block .cta-link{
+    display:flex; align-items:center; gap:16px;
+    font-size:14px; font-weight:700; letter-spacing:0.08em;
+    margin-top:2vw;
+  }
+  .cta-block .cta-arrow{
+    width:48px; height:48px; border-radius:50%; border:1px solid var(--border-light-white);
+    display:grid; place-items:center; transition: all 0.4s;
+  }
+  .cta-block:hover .cta-arrow{ background:var(--white); color:var(--black); transform:rotate(-45deg) }
+
+  /* FOOTER - Huge style */
+  footer{
+    background:var(--black);
+    color:var(--white);
+    padding: 3vw 2.5vw 2vw 2.5vw;
+    border-top:1px solid var(--border-light-white);
+  }
+  .footer-top{
+    display:grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr;
+    gap:3vw;
+    padding-bottom:3vw;
+  }
+  .footer-brand{
+    font-size: clamp(32px, 4vw, 56px); font-weight:900; letter-spacing:-0.05em; line-height:0.9;
+  }
+  .footer-col h5{
+    font-size:11px; letter-spacing:0.16em; text-transform:uppercase; font-weight:800; opacity:0.4; margin-bottom:1.6vw;
+  }
+  .footer-col a, .footer-col p{
+    display:block; font-size:14px; line-height:1.6; font-weight:500; opacity:0.8; margin-bottom:6px;
+  }
+  .footer-col a:hover{ opacity:1; color:var(--purple-light) }
+  .footer-bottom{
+    border-top:1px solid var(--border-light-white);
+    padding-top:1.6vw;
+    display:flex; justify-content:space-between;
+    font-size:10px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; opacity:0.35;
+  }
+
+  /* MOBILE */
+  @media(max-width:900px){
+    nav{ padding:18px 20px }
+    .hero{ height:88vh; padding:0 20px 28px 20px }
+    .hero h1{ font-size:88px }
+    .hero-bottom{ flex-direction:column; align-items:flex-start }
+    .showreel{ height:62vh }
+    .manifesto{ padding: 48px 20px }
+    .manifesto h2{ font-size:36px; max-width:100% }
+    .manifesto-bottom{ grid-template-columns:1fr; gap:24px }
+    .strip-item{ width:78vw }
+    .logos{ grid-template-columns: repeat(3, 1fr) }
+    .work{ padding: 32px 20px 0 20px }
+    .work-grid{ grid-template-columns:1fr }
+    .work-card-info{ flex-direction:column; padding:20px }
+    .solutions{ padding:40px 20px }
+    .solutions-head{ grid-template-columns:1fr }
+    .solution-row{ grid-template-columns: 1fr; gap:10px; padding:24px 0 }
+    .cta{ grid-template-columns:1fr }
+    .cta-block{ min-height: 52vw; padding:28px 20px; border-right:0; border-bottom:1px solid var(--border-light-white) }
+    .footer-top{ grid-template-columns:1fr 1fr; gap:32px }
+    .footer-bottom{ flex-direction:column; gap:8px }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">koda<span>.</span></div>
+  <div class="nav-right">
+    <span style="opacity:0.6">Manila — Worldwide</span>
+    <div class="menu-btn">—</div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg">
+    <img src="images/hero-k.jpg" alt="koda hero">
+  </div>
+  <div class="hero-top"></div>
+  <h1>Hello.</h1>
+  <div class="hero-bottom">
+    <p>Burning the midnight oil? Good ideas don't clock out. We build social brands that people actually want to follow at 2AM.</p>
+    <p style="max-width:22ch; opacity:0.7; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:700">koda is a social-first studio. Strategy. Content. Community. From Manila.</p>
+  </div>
+</section>
+
+<section class="showreel" onclick="alert('Full showreel — DM @koda.social on IG for latest cuts')">
+  <img src="images/showreel.jpg" alt="showreel">
+  <div class="showreel-center">
+    <div class="play-btn">
+      <div class="play-circle">▶</div>
+      <div class="play-text">Play showreel</div>
+    </div>
+  </div>
+</section>
+
+<section class="manifesto">
+  <div class="manifesto-inner">
+    <h2>We make social that matters to <span class="switch" id="switch"><span class="active">people.</span><span>brands.</span><span>culture.</span><span>feeds.</span><span>clients.</span><span>community.</span><span>algorithms.</span></span></h2>
+    <div class="manifesto-bottom">
+      <div class="manifesto-label">( Our thing )</div>
+      <p>Anyone can post. Creating social that resonates with culture and drives business is the hard part. It takes taste, timing, and human judgment.<br><br>At koda, we blend strategy, creative, and community management to build brands that don't just exist on social — they live there. No templates. No fluff.</p>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="strip-track" id="stripTrack">
+    <!-- duplicated via JS -->
+  </div>
+</div>
+
+<div class="logos">
+  <div class="logo-cell">Brew Point</div>
+  <div class="logo-cell">Cove</div>
+  <div class="logo-cell">Sundays</div>
+  <div class="logo-cell">After Hours</div>
+  <div class="logo-cell">Kindred</div>
+  <div class="logo-cell">Local</div>
+  <div class="logo-cell">Matter</div>
+  <div class="logo-cell">Studio 110</div>
+  <div class="logo-cell">North</div>
+  <div class="logo-cell">Palm</div>
+  <div class="logo-cell">Good Days</div>
+  <div class="logo-cell">+12 more</div>
+</div>
+
+<section class="work">
+  <div class="work-head">
+    <h3>Our work.</h3>
+    <span>Selected — 2024 / 2026</span>
+  </div>
+  <div class="work-grid">
+    <div class="work-card">
+      <div class="work-card-tag">Coffee / Growth</div>
+      <div class="work-card-image"><img src="images/work-coffee.jpg" alt=""></div>
+      <div class="work-card-info">
+        <div class="work-card-title">Brew Point.</div>
+        <div class="work-card-desc">From 2K to 87K followers in 90 days. No ads, just culture-led content that people saved.</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-tag">Fashion / Content</div>
+      <div class="work-card-image"><img src="images/work-fashion.jpg" alt=""></div>
+      <div class="work-card-info">
+        <div class="work-card-title">Cove Studio.</div>
+        <div class="work-card-desc">Social system that turned a local label into a 7-figure DTC brand. Lookbook that lives on feed.</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-tag">Beauty / Community</div>
+      <div class="work-card-image"><img src="images/work-beauty.jpg" alt=""></div>
+      <div class="work-card-info">
+        <div class="work-card-title">Skin.</div>
+        <div class="work-card-desc">1200+ DMs/month managed. Community that sells itself. UGC engine built from comments.</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-tag">Tech / Social</div>
+      <div class="work-card-image"><img src="images/work-app.jpg" alt=""></div>
+      <div class="work-card-info">
+        <div class="work-card-title">After Hours.</div>
+        <div class="work-card-desc">Launch strategy for a social app. Waitlist of 14K from organic TikToks alone.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="solutions">
+  <div class="solutions-head">
+    <h3>Solutions.</h3>
+    <p>Social-native. Culture-led. Expert-built. The capabilities that turn followers into business.</p>
+  </div>
+  <div class="solutions-list">
+    <div class="solution-row">
+      <div class="solution-num">01</div>
+      <div class="solution-title">Brand strategy & social positioning.</div>
+      <div class="solution-desc">Finding your voice, your people, and your unfair advantage on every platform that matters.</div>
+    </div>
+    <div class="solution-row">
+      <div class="solution-num">02</div>
+      <div class="solution-title">Content that cuts through.</div>
+      <div class="solution-desc">Native, lo-fi, hi-fi — whatever the feed wants. Shot, edited, and written for how people actually consume.</div>
+    </div>
+    <div class="solution-row">
+      <div class="solution-num">03</div>
+      <div class="solution-title">Community & growth.</div>
+      <div class="solution-desc">We don't post and ghost. We build community, manage conversations, and turn comments into customers.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <a href="#work" class="cta-block">
+    <h4>Work.</h4>
+    <div class="cta-link"><span class="cta-arrow">↗</span><span>Check our latest work on Instagram</span></div>
+  </a>
+  <a href="mailto:hello@kodasocial.co" class="cta-block" style="background:#7C3AED; color:white">
+    <h4>Contact.</h4>
+    <div class="cta-link"><span class="cta-arrow" style="border-color:white; background:white; color:#7C3AED">↗</span><span>Ready to talk? hello@kodasocial.co — +63 956 358 2746</span></div>
+  </a>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">koda is a social-first creative studio from Manila.</div>
+    <div class="footer-col">
+      <h5>Talk</h5>
+      <a href="mailto:hello@kodasocial.co">hello@kodasocial.co</a>
+      <a href="tel:+639563582746">+63 956 358 2746</a>
+      <p style="margin-top:16px; opacity:0.5">Response time: under 2 hours in PH daytime.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Find</h5>
+      <p>San Jose del Monte<br>Central Luzon<br>Philippines</p>
+      <p style="margin-top:12px">Remote worldwide<br>GMT+8</p>
+    </div>
+    <div class="footer-col">
+      <h5>Follow</h5>
+      <a href="#">Instagram @koda.social</a>
+      <a href="#">TikTok @koda.social</a>
+      <a href="#">LinkedIn /koda social</a>
+      <a href="mailto:hello@kodasocial.co" style="margin-top:18px; display:inline-block; border:1px solid rgba(255,255,255,0.2); padding:10px 16px; border-radius:999px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800">Start a project</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 koda social co.</span>
+    <span>Social that matters — lowercase intentional</span>
+    <span>Made in Manila with taste</span>
+  </div>
+</footer>
+
+<script>
+  // Rotating words like Huge
+  const spans = document.querySelectorAll('#switch span');
+  let i=0;
+  setInterval(()=>{
+    spans[i].classList.remove('active');
+    i=(i+1)%spans.length;
+    spans[i].classList.add('active');
+  }, 1600);
+
+  // Build infinite strip like Huge's image scroller
+  const stripImgs = [
+    'images/work-coffee.jpg',
+    'images/work-fashion.jpg',
+    'images/work-beauty.jpg',
+    'images/work-app.jpg',
+    'images/hero-k.jpg',
+    'images/showreel.jpg',
+  ];
+  const track = document.getElementById('stripTrack');
+  function buildStrip(){
+    track.innerHTML='';
+    for(let k=0;k<4;k++){
+      stripImgs.forEach(src=>{
+        const div=document.createElement('div');
+        div.className='strip-item';
+        div.innerHTML=`<img src="${src}" loading="lazy">`;
+        track.appendChild(div);
+      });
+    }
+  }
+  buildStrip();
+
+  // Smooth scroll for work anchor
+  document.querySelectorAll('a[href^=\"#\"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      const id=a.getAttribute('href');
+      if(id.length>1){
+        e.preventDefault();
+        document.querySelector(id)?.scrollIntoView({behavior:'smooth'});
+      }
+    });
+  });
+</script>
+</body>
+</html>
