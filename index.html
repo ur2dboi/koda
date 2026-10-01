@@ -243,8 +243,13 @@
   /* FOOTER */
   footer{ background:black; color:white; padding:20px 24px; border-top:3px solid var(--purple) }
   .footer-top{ display:grid; grid-template-columns:1.3fr 0.8fr 0.8fr 0.9fr; gap:20px; padding-bottom:20px }
-  .footer-logo{ width:220px; height:auto; margin-bottom:20px; display:block; filter: drop-shadow(0 0 20px rgba(124,58,237,0.3)); transition: all 0.3s }
-  .footer-logo:hover{ transform:scale(1.03); filter: drop-shadow(0 0 30px rgba(124,58,237,0.5)) }
+  .footer-logo-text{
+    font-family:"Inter", sans-serif; font-weight:900; font-size:64px; letter-spacing:-0.06em; line-height:0.85;
+    color:white; margin-bottom:20px; display:block; text-transform:lowercase;
+    text-shadow:0 0 30px rgba(124,58,237,0.4);
+    transition: all 0.3s;
+  }
+  .footer-logo-text:hover{ transform:scale(1.02); text-shadow:0 0 40px rgba(124,58,237,0.6); color:#E9D5FF }
   .footer-brand{ font-size:22px; font-weight:900; letter-spacing:-0.03em; line-height:0.95; color:white; display:flex; flex-direction:column; align-items:flex-start }
   .footer-col h5{ font-size:9px; letter-spacing:0.15em; text-transform:uppercase; font-weight:800; color:var(--purple-light); margin-bottom:12px; background:rgba(124,58,237,0.12); padding:5px 7px; display:inline-block }
   .footer-col a, .footer-col p{ display:block; font-size:12.5px; line-height:1.5; font-weight:500; color:rgba(255,255,255,0.75); margin-bottom:3px; transition:all 0.2s }
@@ -478,7 +483,7 @@
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <img src="images/koda-logo.png" alt="koda logo" class="footer-logo">
+      <div class="footer-logo-text">koda</div>
       <div>koda is a social-first creative studio from Manila.</div>
     </div>
     <div class="footer-col">
