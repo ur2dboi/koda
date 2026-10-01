@@ -86,19 +86,39 @@
     height:100%; text-align:center;
   }
   .hero h1{
-    color:white; font-size:clamp(100px, 18vw, 280px); font-weight:900; letter-spacing:-0.07em; line-height:0.8;
-    margin:0; opacity:0; transform:translateY(50px);
-    animation: heroTitleReveal 1s cubic-bezier(0.77,0,0.175,1) 0.2s forwards;
-    text-align:center;
+    font-size:clamp(100px, 18vw, 280px); font-weight:900; letter-spacing:-0.07em; line-height:0.8;
+    margin:0; text-align:center; position:relative;
+    background: linear-gradient(90deg, #FFFFFF 0%, #C4B5FD 15%, #A78BFA 30%, #8B5CF6 45%, #EC4899 60%, #F472B6 75%, #FFFFFF 90%);
+    background-size:300% 100%;
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation: heroTitleReveal 1s cubic-bezier(0.77,0,0.175,1) 0.2s forwards, gradientShift 4s linear infinite 1.2s, glowPulse 3s ease-in-out infinite 1.2s;
+    opacity:0; transform:translateY(50px);
+    filter: drop-shadow(0 0 30px rgba(124,58,237,0.35));
   }
   @keyframes heroTitleReveal{ to{ opacity:1; transform:translateY(0) } }
+  @keyframes gradientShift{
+    0%{ background-position:0% 50% }
+    50%{ background-position:100% 50% }
+    100%{ background-position:0% 50% }
+  }
+  @keyframes glowPulse{
+    0%,100%{ filter: drop-shadow(0 0 24px rgba(124,58,237,0.3)) drop-shadow(0 0 50px rgba(236,72,153,0.15)) }
+    50%{ filter: drop-shadow(0 0 45px rgba(124,58,237,0.55)) drop-shadow(0 0 75px rgba(236,72,153,0.35)) }
+  }
   .hero-sub{
-    color:white; font-size:clamp(18px, 2vw, 26px); font-weight:700; line-height:1.2; letter-spacing:-0.02em;
+    font-size:clamp(18px, 2vw, 26px); font-weight:700; line-height:1.2; letter-spacing:-0.02em;
     max-width:38ch; margin-top:20px; opacity:0; transform:translateY(20px);
-    animation: heroSubReveal 0.9s cubic-bezier(0.77,0,0.175,1) 0.55s forwards;
-    text-align:center;
+    animation: heroSubReveal 0.9s cubic-bezier(0.77,0,0.175,1) 0.55s forwards, subColorShift 7s ease-in-out infinite 2s;
+    text-align:center; color:white;
   }
   @keyframes heroSubReveal{ to{ opacity:1; transform:translateY(0) } }
+  @keyframes subColorShift{
+    0%,100%{ color:rgba(255,255,255,0.92) }
+    25%{ color:#DDD6FE }
+    50%{ color:#FBCFE8 }
+    75%{ color:#E9D5FF }
+  }
   .hero-scroll{
     position:absolute; bottom:20px; right:24px; z-index:3;
     display:flex; align-items:center; gap:10px;
