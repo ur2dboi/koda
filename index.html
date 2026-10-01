@@ -91,19 +91,10 @@
   .hero-content *{ pointer-events:auto }
   .hero h1{
     color:white; font-size:clamp(72px, 15vw, 200px); font-weight:900; letter-spacing:-0.07em; line-height:0.8;
-    margin-top:auto; text-shadow:none;
+    margin-top:auto; opacity:0; transform:translateY(60px);
+    animation: heroTitleReveal 1.2s cubic-bezier(0.77,0,0.175,1) 0.2s forwards;
   }
-  .hero-title .char{
-    display:inline-block; opacity:0; transform:translateY(100%);
-    animation: charReveal 0.9s cubic-bezier(0.77,0,0.175,1) forwards;
-  }
-  .hero-title .char:nth-child(1){ animation-delay:0.1s }
-  .hero-title .char:nth-child(2){ animation-delay:0.18s }
-  .hero-title .char:nth-child(3){ animation-delay:0.26s }
-  .hero-title .char:nth-child(4){ animation-delay:0.34s }
-  .hero-title .char:nth-child(5){ animation-delay:0.42s }
-  .hero-title .char:nth-child(6){ animation-delay:0.5s }
-  @keyframes charReveal{ to{ opacity:1; transform:translateY(0) } }
+  @keyframes heroTitleReveal{ to{ opacity:1; transform:translateY(0) } }
 
   .hero-bottom-new{
     display:grid; grid-template-columns: 1.1fr 0.7fr auto; gap:0;
@@ -374,7 +365,7 @@
 <section class="hero">
   <div class="hero-bg"><img src="images/hero-k.jpg" alt="koda hero" onerror="this.style.display='none'"></div>
   <div class="hero-content">
-    <h1 class="hero-title"><span class="char">H</span><span class="char">e</span><span class="char">l</span><span class="char">l</span><span class="char">o</span><span class="char">.</span></h1>
+    <h1 class="hero-title">Hello.</h1>
     <div class="hero-bottom-new">
       <div class="hero-left">
         <div class="live-indicator"><div class="live-dot"></div><div class="live-ring"></div></div>
