@@ -24,338 +24,283 @@
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
     line-height:1;
-    cursor:none;
+    cursor:auto;
   }
-  a{color:inherit;text-decoration:none;cursor:none}
-  button{border:0;background:none;cursor:none;font:inherit}
-  @media(max-width:900px){ body, a, button{ cursor:auto } }
+  body.custom-cursor-active{ cursor:none }
+  body.custom-cursor-active a, body.custom-cursor-active button{ cursor:none }
+  a{color:inherit;text-decoration:none}
+  button{border:0;background:none;cursor:pointer;font:inherit}
+  img{ display:block; max-width:100% }
 
-  /* PROGRESS */
+  /* PROGRESS - ALWAYS VISIBLE */
   #progress{
-    position:fixed; top:0; left:0; height:3px; width:0%;
-    background:var(--purple); z-index:1000;
-    transition:width 0.1s linear;
+    position:fixed; top:0; left:0; height:4px; width:0%;
+    background:linear-gradient(90deg, var(--purple), #EC4899);
+    z-index:1000; transition:width 0.1s linear;
   }
 
-  /* CUSTOM CURSOR - Huge style dot */
+  /* CUSTOM CURSOR - VISIBLE DESIGN */
   .cursor{
     position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
-    mix-blend-mode:difference;
-    display:flex; align-items:center; justify-content:center;
+    mix-blend-mode:difference; display:flex; align-items:center; justify-content:center;
+    opacity:0; transition:opacity 0.3s;
   }
-  .cursor-dot{
-    width:8px; height:8px; background:white; border-radius:50%;
-    transition: transform 0.18s cubic-bezier(0.77,0,0.175,1);
-  }
-  .cursor-ring{
-    position:absolute; width:44px; height:44px; border:1px solid rgba(255,255,255,0.6);
-    border-radius:50%; transition: all 0.22s cubic-bezier(0.77,0,0.175,1);
-  }
+  .cursor.visible{ opacity:1 }
+  .cursor-dot{ width:8px; height:8px; background:white; border-radius:50%; transition: transform 0.18s cubic-bezier(0.77,0,0.175,1) }
+  .cursor-ring{ position:absolute; width:44px; height:44px; border:1px solid rgba(255,255,255,0.6); border-radius:50%; transition: all 0.22s cubic-bezier(0.77,0,0.175,1) }
   .cursor.hover .cursor-dot{ transform:scale(4) }
   .cursor.hover .cursor-ring{ transform:scale(1.6); opacity:0 }
   .cursor.view .cursor-ring{ width:88px; height:88px; background:white; border-color:white }
-  .cursor.view .cursor-ring::after{
-    content:"VIEW"; position:absolute; inset:0; display:grid; place-items:center;
-    color:black; font-size:11px; font-weight:900; letter-spacing:0.12em;
-  }
+  .cursor.view .cursor-ring::after{ content:"VIEW"; position:absolute; inset:0; display:grid; place-items:center; color:black; font-size:11px; font-weight:900; letter-spacing:0.12em }
   .cursor.inquiry .cursor-ring{ width:92px; height:92px; background:var(--purple); border-color:var(--purple) }
-  .cursor.inquiry .cursor-ring::after{
-    content:"TALK →"; position:absolute; inset:0; display:grid; place-items:center;
-    color:white; font-size:11px; font-weight:900; letter-spacing:0.1em;
-  }
-  @media(max-width:900px){ .cursor{ display:none } }
+  .cursor.inquiry .cursor-ring::after{ content:"TALK →"; position:absolute; inset:0; display:grid; place-items:center; color:white; font-size:11px; font-weight:900; letter-spacing:0.1em }
+  @media(max-width:900px){ .cursor{ display:none !important } body{ cursor:auto !important } }
 
-  /* NAV */
+  /* NAV - ALWAYS VISIBLE */
   nav{
     position:fixed; top:0; left:0; right:0; z-index:60;
     display:flex; justify-content:space-between; align-items:center;
-    padding:18px 24px;
+    padding:18px 24px; background:rgba(0,0,0,0.02); backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(0,0,0,0.06);
     mix-blend-mode:difference; color:white;
   }
   .logo{ font-weight:900; font-size:24px; letter-spacing:-0.04em; display:flex; align-items:center; gap:8px }
   .logo i{ width:8px; height:8px; background:var(--purple); border-radius:50%; display:inline-block; animation:pulse 2s infinite }
   @keyframes pulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.6)} }
-  .nav-right{ display:flex; gap:16px; align-items:center }
+  .nav-right{ display:flex; gap:12px; align-items:center }
   .nav-pill{
     font-size:11px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase;
-    border:1px solid white; padding:10px 18px; border-radius:999px;
-    transition: all 0.3s;
+    border:1px solid white; padding:10px 18px; border-radius:999px; transition: all 0.3s; background:transparent; color:white;
   }
-  .nav-pill:hover{ background:white; color:black }
+  .nav-pill:hover{ background:white; color:black; transform:translateY(-1px) }
   .nav-pill.filled{ background:white; color:black }
   .nav-pill.filled:hover{ background:var(--purple); color:white; border-color:var(--purple) }
 
-  /* HERO */
+  /* HERO - VISIBLE WITH FALLBACK */
   .hero{
     position:relative; width:100%; height:92vh; min-height:640px;
-    background:var(--purple); overflow:hidden;
-    display:flex; flex-direction:column; justify-content:flex-end;
-    padding:0 24px 24px 24px;
+    background:linear-gradient(135deg, #3D1E7A 0%, #7C3AED 50%, #A855F7 100%);
+    overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end;
+    padding:0 24px 24px 24px; border-bottom:4px solid black;
   }
   .hero-bg{ position:absolute; inset:0; z-index:0 }
-  .hero-bg img{ width:100%; height:100%; object-fit:cover }
+  .hero-bg img{ width:100%; height:100%; object-fit:cover; display:block }
   .hero-bg::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(61,30,122,0.15) 0%, rgba(0,0,0,0.65) 100%) }
-  .hero h1{
-    position:relative; z-index:2; color:white;
-    font-size:clamp(72px, 14vw, 200px); font-weight:900; letter-spacing:-0.06em; line-height:0.85;
-  }
-  .hero h1 .magnet{ display:inline-block; transition:transform 0.3s }
+  .hero h1{ position:relative; z-index:2; color:white; font-size:clamp(72px, 14vw, 200px); font-weight:900; letter-spacing:-0.06em; line-height:0.85; text-shadow:0 4px 30px rgba(0,0,0,0.3) }
   .hero-bottom{
     position:relative; z-index:2; color:white;
-    display:grid; grid-template-columns:1.2fr 0.8fr auto;
-    gap:24px; align-items:end; margin-top:2vw;
+    display:grid; grid-template-columns:1.2fr 0.8fr auto; gap:24px; align-items:end; margin-top:2vw;
+    background:rgba(0,0,0,0.15); backdrop-filter:blur(4px); padding:16px; border:1px solid rgba(255,255,255,0.15);
   }
-  .hero-bottom p{ font-size:15px; line-height:1.5; max-width:38ch; font-weight:500; opacity:0.9 }
+  .hero-bottom p{ font-size:15px; line-height:1.5; max-width:38ch; font-weight:500; opacity:1; color:white }
   .hero-cta{
-    justify-self:end;
-    background:white; color:black;
-    padding:16px 24px; border-radius:999px;
+    justify-self:end; background:white; color:black; padding:16px 24px; border-radius:999px;
     font-size:12px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase;
-    display:flex; align-items:center; gap:12px;
-    transition: all 0.3s cubic-bezier(0.77,0,0.175,1);
+    display:flex; align-items:center; gap:12px; transition: all 0.3s cubic-bezier(0.77,0,0.175,1);
+    border:2px solid white; box-shadow:0 8px 24px rgba(0,0,0,0.2);
   }
-  .hero-cta:hover{ background:var(--purple); color:white; transform:translateY(-2px) }
+  .hero-cta:hover{ background:var(--purple); color:white; transform:translateY(-2px); border-color:var(--purple) }
   .hero-cta .arrow{ width:28px; height:28px; border-radius:50%; background:black; color:white; display:grid; place-items:center; transition:transform 0.3s }
-  .hero-cta:hover .arrow{ transform:rotate(-45deg); background:white; color:var(--purple) }
 
-  /* SHOWREEL */
+  /* SHOWREEL - VISIBLE */
   .showreel{
     position:relative; width:100%; height:72vh; min-height:480px;
-    background:black; overflow:hidden;
+    background:black; overflow:hidden; border-bottom:1px solid black; cursor:pointer;
   }
-  .showreel img{ width:100%; height:100%; object-fit:cover; opacity:0.9; transition:transform 0.9s cubic-bezier(0.77,0,0.175,1) }
+  .showreel img{ width:100%; height:100%; object-fit:cover; opacity:0.9; transition:transform 0.9s cubic-bezier(0.77,0,0.175,1); display:block }
   .showreel:hover img{ transform:scale(1.04) }
   .showreel-overlay{
     position:absolute; inset:0; display:grid; place-items:center; z-index:2;
-    background: radial-gradient(60% 60% at 50% 50%, rgba(124,58,237,0.18) 0%, transparent 70%);
+    background: radial-gradient(60% 60% at 50% 50%, rgba(124,58,237,0.25) 0%, transparent 70%);
   }
-  .play-btn{
-    display:flex; align-items:center; gap:18px; color:white;
-    mix-blend-mode:difference;
-  }
-  .play-circle{
-    width:84px; height:84px; border-radius:50%; background:white; color:black;
-    display:grid; place-items:center; font-weight:900; font-size:18px;
-    transition: transform 0.4s cubic-bezier(0.77,0,0.175,1);
-  }
+  .play-btn{ display:flex; align-items:center; gap:18px; color:white; background:rgba(0,0,0,0.4); padding:12px 20px; border-radius:999px; border:1px solid rgba(255,255,255,0.2); backdrop-filter:blur(8px) }
+  .play-circle{ width:64px; height:64px; border-radius:50%; background:white; color:black; display:grid; place-items:center; font-weight:900; font-size:18px; transition: transform 0.4s cubic-bezier(0.77,0,0.175,1) }
   .showreel:hover .play-circle{ transform:scale(1.12) }
-  .play-text{ font-size:clamp(20px, 2.4vw, 36px); font-weight:800; letter-spacing:-0.03em }
+  .play-text{ font-size:clamp(18px, 2.2vw, 28px); font-weight:800; letter-spacing:-0.03em }
 
-  /* TICKER STATS - NO EMPTY SPACE FILLER */
+  /* STATS TICKER - HIGH VISIBILITY, NO EMPTY */
   .stats-ticker{
-    background:black; color:white;
-    display:grid; grid-template-columns: repeat(4, 1fr);
-    border-top:1px solid var(--border-light-white);
-    border-bottom:1px solid var(--border-light-white);
+    background:black; color:white; display:grid; grid-template-columns: repeat(4, 1fr);
+    border-top:2px solid var(--purple); border-bottom:2px solid black;
   }
   .stat-cell{
-    padding:18px 24px; border-right:1px solid var(--border-light-white);
-    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 24px; border-right:1px solid rgba(255,255,255,0.15);
+    display:flex; justify-content:space-between; align-items:center; background:black; transition:background 0.3s;
   }
+  .stat-cell:hover{ background:#111 }
   .stat-cell:last-child{ border-right:0 }
-  .stat-num{ font-size:28px; font-weight:900; letter-spacing:-0.04em }
-  .stat-label{ font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; opacity:0.5; max-width:14ch; line-height:1.3; text-align:right }
+  .stat-num{ font-size:32px; font-weight:900; letter-spacing:-0.04em; color:white }
+  .stat-label{ font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; opacity:0.7; max-width:16ch; line-height:1.3; text-align:right; color:white }
 
-  /* MANIFESTO - TIGHTER, NO EMPTY */
+  /* MANIFESTO - VISIBLE, NO EMPTY */
   .manifesto{
     background:white; padding:48px 24px 32px 24px;
-    display:grid; grid-template-columns: 140px 1fr;
-    gap:24px; border-bottom:1px solid var(--border-light);
+    display:grid; grid-template-columns: 140px 1fr; gap:24px;
+    border-bottom:2px solid black; min-height:300px;
   }
-  .manifesto-label{ font-size:10px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; opacity:0.35; padding-top:12px }
-  .manifesto h2{
-    font-size:clamp(32px, 5.6vw, 84px); font-weight:800; letter-spacing:-0.05em; line-height:0.92; max-width:18ch;
-  }
-  .manifesto h2 .switch{ color:var(--purple); position:relative; display:inline-block; min-width:4.8ch; cursor:pointer }
-  .manifesto h2 .switch span{
-    position:absolute; left:0; top:0; opacity:0; transform:translateY(100%);
-    transition: all 0.5s cubic-bezier(0.77,0,0.175,1); white-space:nowrap;
-  }
+  .manifesto-label{ font-size:10px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; opacity:1; color:black; background:var(--paper); padding:8px 10px; align-self:start; border:1px solid black }
+  .manifesto h2{ font-size:clamp(32px, 5.6vw, 84px); font-weight:800; letter-spacing:-0.05em; line-height:0.92; max-width:18ch; color:black }
+  .manifesto h2 .switch{ color:var(--purple); position:relative; display:inline-block; min-width:4.8ch; cursor:pointer; border-bottom:4px solid var(--purple); padding-bottom:2px }
+  .manifesto h2 .switch span{ position:absolute; left:0; top:0; opacity:0; transform:translateY(100%); transition: all 0.5s cubic-bezier(0.77,0,0.175,1); white-space:nowrap }
   .manifesto h2 .switch span.active{ position:relative; opacity:1; transform:translateY(0) }
   .manifesto-copy{
-    grid-column:2; margin-top:24px;
-    display:grid; grid-template-columns:1fr 1fr; gap:24px;
-    border-top:1px solid var(--border-light); padding-top:24px;
+    grid-column:2; margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:24px;
+    border-top:2px solid black; padding-top:24px; background:#fafaf8; padding:24px; border:1px solid var(--border-light);
   }
-  .manifesto-copy p{ font-size:15px; line-height:1.6; font-weight:500; max-width:42ch }
+  .manifesto-copy p{ font-size:15px; line-height:1.6; font-weight:500; max-width:42ch; color:black }
   .manifesto-copy .highlight{
     font-size:12px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase;
-    background:black; color:white; padding:10px 14px; align-self:start; display:inline-block; margin-top:12px;
-    transition: all 0.3s; cursor:pointer;
+    background:black; color:white; padding:12px 16px; align-self:start; display:inline-block; margin-top:12px;
+    transition: all 0.3s; cursor:pointer; border:2px solid black;
   }
-  .manifesto-copy .highlight:hover{ background:var(--purple) }
+  .manifesto-copy .highlight:hover{ background:var(--purple); border-color:var(--purple); transform:translateY(-2px) }
 
-  /* STRIP - DRAGGABLE */
+  /* STRIP - VISIBLE DRAGGABLE */
   .strip{
-    background:white; overflow:hidden; border-bottom:1px solid var(--border-light);
-    padding:12px 0; cursor:grab; user-select:none;
+    background:#f5f3ef; overflow:hidden; border-bottom:2px solid black;
+    padding:16px 0; cursor:grab; user-select:none; min-height:180px;
   }
   .strip:active{ cursor:grabbing }
   .strip-track{ display:flex; gap:12px; will-change:transform; width:max-content; animation:scrollStrip 50s linear infinite }
   .strip:hover .strip-track{ animation-play-state:paused }
-  .strip-item{ width:28vw; min-width:280px; aspect-ratio:16/10; background:#f5f3ef; overflow:hidden; position:relative }
-  .strip-item img{ width:100%; height:100%; object-fit:cover; transition:transform 0.6s }
+  .strip-item{ width:28vw; min-width:280px; aspect-ratio:16/10; background:white; overflow:hidden; position:relative; border:2px solid black; box-shadow:4px 4px 0 black }
+  .strip-item img{ width:100%; height:100%; object-fit:cover; transition:transform 0.6s; display:block }
   .strip-item:hover img{ transform:scale(1.08) }
-  .strip-item::after{ content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(0,0,0,0.4) 0%, transparent 50%); opacity:0; transition:opacity 0.3s }
-  .strip-item:hover::after{ opacity:1 }
+  .strip-item::after{ content:"DRAG →"; position:absolute; bottom:8px; right:8px; background:black; color:white; font-size:9px; font-weight:800; letter-spacing:0.1em; padding:4px 8px; opacity:0.8 }
   @keyframes scrollStrip{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-  /* WORK - NO EMPTY, TIGHT GRID */
-  .work{ background:white; padding:0 }
+  /* WORK - VISIBLE, NO EMPTY */
+  .work{ background:white; padding:0; border-bottom:2px solid black }
   .work-head{
     display:flex; justify-content:space-between; align-items:center;
-    padding:20px 24px; border-bottom:1px solid black; position:sticky; top:0; background:white; z-index:10;
+    padding:20px 24px; border-bottom:2px solid black; position:sticky; top:0; background:white; z-index:10;
   }
-  .work-head h3{ font-size:24px; font-weight:900; letter-spacing:-0.04em }
-  .work-head span{ font-size:10px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; opacity:0.5 }
-  .work-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border-light); border-bottom:1px solid var(--border-light) }
-  .work-card{ background:white; position:relative; overflow:hidden }
-  .work-card-image{ aspect-ratio:16/11; overflow:hidden; background:#f5f3ef; position:relative }
-  .work-card-image img{ width:100%; height:100%; object-fit:cover; transition:transform 0.9s cubic-bezier(0.77,0,0.175,1) }
+  .work-head h3{ font-size:24px; font-weight:900; letter-spacing:-0.04em; color:black }
+  .work-head span{ font-size:10px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; opacity:1; background:black; color:white; padding:6px 10px }
+  .work-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2px; background:black; border-bottom:2px solid black }
+  .work-card{ background:white; position:relative; overflow:hidden; cursor:pointer; transition:all 0.3s }
+  .work-card:hover{ background:#fafaf8 }
+  .work-card-image{ aspect-ratio:16/11; overflow:hidden; background:#f5f3ef; position:relative; border-bottom:2px solid black }
+  .work-card-image img{ width:100%; height:100%; object-fit:cover; transition:transform 0.9s cubic-bezier(0.77,0,0.175,1); display:block }
   .work-card:hover .work-card-image img{ transform:scale(1.07) }
   .work-card-tag{
     position:absolute; top:12px; left:12px; z-index:2;
     background:white; color:black; font-size:9px; font-weight:900; letter-spacing:0.12em; text-transform:uppercase;
-    padding:6px 10px; display:flex; gap:6px; align-items:center;
+    padding:6px 10px; display:flex; gap:6px; align-items:center; border:1px solid black; box-shadow:2px 2px 0 black;
   }
   .work-card-tag::before{ content:""; width:6px; height:6px; background:var(--purple); border-radius:50%; display:inline-block; animation:pulse 1.5s infinite }
-  .work-card-info{ padding:18px 20px 20px 20px; display:flex; justify-content:space-between; gap:16px }
-  .work-card-title{ font-size:20px; font-weight:800; letter-spacing:-0.03em; line-height:1 }
-  .work-card-desc{ font-size:12.5px; line-height:1.5; opacity:0.6; max-width:26ch; font-weight:500 }
+  .work-card-info{ padding:18px 20px 20px 20px; display:flex; justify-content:space-between; gap:16px; background:white }
+  .work-card-title{ font-size:20px; font-weight:800; letter-spacing:-0.03em; line-height:1; color:black }
+  .work-card-desc{ font-size:12.5px; line-height:1.5; opacity:1; color:rgba(0,0,0,0.7); max-width:26ch; font-weight:500 }
   .work-card-arrow{
-    position:absolute; bottom:18px; right:18px; width:36px; height:36px; border-radius:50%; border:1px solid var(--border-light);
-    display:grid; place-items:center; opacity:0; transform:translateY(10px); transition:all 0.4s;
+    position:absolute; bottom:18px; right:18px; width:36px; height:36px; border-radius:50%; border:2px solid black;
+    display:grid; place-items:center; opacity:1; background:white; color:black; font-weight:900; transition:all 0.4s; box-shadow:2px 2px 0 black;
   }
-  .work-card:hover .work-card-arrow{ opacity:1; transform:translateY(0); background:black; color:white; border-color:black }
+  .work-card:hover .work-card-arrow{ background:black; color:white; transform:translateY(-2px); box-shadow:3px 3px 0 var(--purple) }
 
-  /* SOLUTIONS - INTERACTIVE ACCORDION */
-  .solutions{ background:black; color:white; padding:32px 24px }
-  .solutions-head{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px }
-  .solutions-head h3{ font-size:clamp(28px, 4vw, 56px); font-weight:800; letter-spacing:-0.05em; line-height:0.9 }
-  .solutions-head p{ font-size:13px; line-height:1.5; opacity:0.55; max-width:32ch }
-  .solutions-list{ border-top:1px solid var(--border-light-white) }
+  /* SOLUTIONS - VISIBLE INTERACTIVE */
+  .solutions{ background:black; color:white; padding:32px 24px; border-bottom:2px solid var(--purple) }
+  .solutions-head{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.15) }
+  .solutions-head h3{ font-size:clamp(28px, 4vw, 56px); font-weight:800; letter-spacing:-0.05em; line-height:0.9; color:white }
+  .solutions-head p{ font-size:13px; line-height:1.5; opacity:1; color:rgba(255,255,255,0.7); max-width:32ch; background:rgba(255,255,255,0.06); padding:12px; border:1px solid rgba(255,255,255,0.1) }
+  .solutions-list{ border-top:1px solid rgba(255,255,255,0.15) }
   .solution-row{
-    display:grid; grid-template-columns:60px 1fr 1fr 48px;
-    gap:16px; padding:20px 0; border-bottom:1px solid var(--border-light-white);
-    cursor:pointer; transition: all 0.3s;
+    display:grid; grid-template-columns:60px 1fr 1fr 48px; gap:16px; padding:20px 12px; border-bottom:1px solid rgba(255,255,255,0.15);
+    cursor:pointer; transition: all 0.3s; background:transparent;
   }
-  .solution-row:hover{ background:rgba(255,255,255,0.04); padding-left:12px; padding-right:12px }
-  .solution-row.active{ background:rgba(124,58,237,0.12) }
-  .solution-num{ font-size:11px; font-weight:800; opacity:0.4; padding-top:4px }
-  .solution-title{ font-size:clamp(16px, 1.8vw, 24px); font-weight:800; letter-spacing:-0.02em; line-height:1.1 }
-  .solution-desc{ font-size:12.5px; line-height:1.5; opacity:0.55 }
+  .solution-row:hover{ background:rgba(255,255,255,0.06); transform:translateX(4px) }
+  .solution-row.active{ background:rgba(124,58,237,0.15); border-left:4px solid var(--purple) }
+  .solution-num{ font-size:11px; font-weight:800; opacity:1; color:var(--purple-light); background:rgba(124,58,237,0.2); padding:4px 8px; align-self:start; text-align:center }
+  .solution-title{ font-size:clamp(16px, 1.8vw, 24px); font-weight:800; letter-spacing:-0.02em; line-height:1.1; color:white }
+  .solution-desc{ font-size:12.5px; line-height:1.5; opacity:1; color:rgba(255,255,255,0.6) }
   .solution-extra{
     grid-column:2 / span 2; max-height:0; overflow:hidden; opacity:0;
-    transition: all 0.5s cubic-bezier(0.77,0,0.175,1);
-    font-size:12px; line-height:1.6; opacity:0.6;
+    transition: all 0.5s cubic-bezier(0.77,0,0.175,1); font-size:12px; line-height:1.6; color:rgba(255,255,255,0.7);
   }
-  .solution-row.active .solution-extra{ max-height:120px; opacity:0.7; margin-top:12px; padding-top:12px; border-top:1px dashed rgba(255,255,255,0.15) }
-  .solution-plus{ width:32px; height:32px; border-radius:50%; border:1px solid var(--border-light-white); display:grid; place-items:center; font-size:14px; transition:all 0.3s }
+  .solution-row.active .solution-extra{ max-height:200px; opacity:1; margin-top:12px; padding:12px; background:rgba(0,0,0,0.3); border:1px dashed rgba(255,255,255,0.15) }
+  .solution-plus{ width:36px; height:36px; border-radius:50%; border:2px solid rgba(255,255,255,0.2); display:grid; place-items:center; font-size:16px; font-weight:900; transition:all 0.3s; background:rgba(255,255,255,0.05); color:white }
   .solution-row:hover .solution-plus{ background:white; color:black; transform:rotate(90deg) }
   .solution-row.active .solution-plus{ background:var(--purple); color:white; border-color:var(--purple); transform:rotate(45deg) }
 
-  /* CTA - NO EMPTY, SPLIT WITH HOVER VIDEO EFFECT */
-  .cta{ background:black; color:white; display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--border-light-white) }
+  /* CTA - VISIBLE */
+  .cta{ background:black; color:white; display:grid; grid-template-columns:1fr 1fr; border-top:2px solid var(--purple) }
   .cta-block{
     padding:32px 24px; min-height:28vw; display:flex; flex-direction:column; justify-content:space-between;
-    border-right:1px solid var(--border-light-white); position:relative; overflow:hidden; transition:background 0.4s;
+    border-right:1px solid rgba(255,255,255,0.15); position:relative; overflow:hidden; transition:background 0.4s; background:black;
   }
-  .cta-block:last-child{ border-right:0 }
+  .cta-block:last-child{ border-right:0; background:var(--purple) }
   .cta-block::before{
-    content:""; position:absolute; inset:0; background:radial-gradient(80% 80% at 20% 20%, rgba(124,58,237,0.3) 0%, transparent 70%);
+    content:""; position:absolute; inset:0; background:radial-gradient(80% 80% at 20% 20%, rgba(255,255,255,0.15) 0%, transparent 70%);
     opacity:0; transition:opacity 0.5s;
   }
   .cta-block:hover::before{ opacity:1 }
-  .cta-block:hover{ background:#0f0f0f }
-  .cta-block h4{ font-size:clamp(40px, 7vw, 96px); font-weight:900; letter-spacing:-0.06em; line-height:0.85; position:relative; z-index:1 }
-  .cta-link{ display:flex; align-items:center; gap:12px; font-size:12px; font-weight:700; letter-spacing:0.08em; position:relative; z-index:1; margin-top:16px }
-  .cta-arrow{ width:40px; height:40px; border-radius:50%; border:1px solid var(--border-light-white); display:grid; place-items:center; transition:all 0.4s }
+  .cta-block:hover{ background:#111 }
+  .cta-block:last-child:hover{ background:#6D28D9 }
+  .cta-block h4{ font-size:clamp(40px, 7vw, 96px); font-weight:900; letter-spacing:-0.06em; line-height:0.85; position:relative; z-index:1; color:white }
+  .cta-link{ display:flex; align-items:center; gap:12px; font-size:12px; font-weight:700; letter-spacing:0.08em; position:relative; z-index:1; margin-top:16px; color:white }
+  .cta-arrow{ width:44px; height:44px; border-radius:50%; border:2px solid rgba(255,255,255,0.3); display:grid; place-items:center; transition:all 0.4s; background:rgba(255,255,255,0.1); color:white; font-weight:900 }
   .cta-block:hover .cta-arrow{ background:white; color:black; transform:rotate(-45deg) scale(1.1) }
 
-  /* FOOTER - DENSE */
-  footer{ background:black; color:white; padding:24px; border-top:1px solid var(--border-light-white) }
+  /* FOOTER - VISIBLE DENSE */
+  footer{ background:black; color:white; padding:24px; border-top:4px solid var(--purple) }
   .footer-top{ display:grid; grid-template-columns:1.4fr 0.8fr 0.8fr 0.9fr; gap:24px; padding-bottom:24px }
-  .footer-brand{ font-size:28px; font-weight:900; letter-spacing:-0.04em; line-height:0.95 }
-  .footer-col h5{ font-size:10px; letter-spacing:0.16em; text-transform:uppercase; font-weight:800; opacity:0.35; margin-bottom:16px }
-  .footer-col a, .footer-col p{ display:block; font-size:13px; line-height:1.6; font-weight:500; opacity:0.75; margin-bottom:4px; transition:all 0.2s }
-  .footer-col a:hover{ opacity:1; color:var(--purple-light); transform:translateX(4px) }
-  .footer-bottom{ border-top:1px solid var(--border-light-white); padding-top:16px; display:flex; justify-content:space-between; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; opacity:0.3 }
+  .footer-brand{ font-size:28px; font-weight:900; letter-spacing:-0.04em; line-height:0.95; color:white }
+  .footer-col h5{ font-size:10px; letter-spacing:0.16em; text-transform:uppercase; font-weight:800; opacity:1; color:var(--purple-light); margin-bottom:16px; background:rgba(124,58,237,0.15); padding:6px 8px; display:inline-block }
+  .footer-col a, .footer-col p{ display:block; font-size:13px; line-height:1.6; font-weight:500; opacity:1; color:rgba(255,255,255,0.8); margin-bottom:4px; transition:all 0.2s }
+  .footer-col a:hover{ opacity:1; color:white; transform:translateX(4px); background:rgba(255,255,255,0.05); padding-left:4px }
+  .footer-bottom{ border-top:1px solid rgba(255,255,255,0.15); padding-top:16px; display:flex; justify-content:space-between; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; opacity:1; color:rgba(255,255,255,0.5) }
 
-  /* FLOATING INQUIRY BUTTON */
+  /* FLOATING INQUIRY - ALWAYS VISIBLE */
   .float-inquiry{
     position:fixed; bottom:20px; right:20px; z-index:55;
-    background:var(--purple); color:white;
-    padding:14px 22px; border-radius:999px;
+    background:var(--purple); color:white; padding:14px 22px; border-radius:999px;
     font-size:11px; font-weight:900; letter-spacing:0.14em; text-transform:uppercase;
     display:flex; align-items:center; gap:10px;
-    box-shadow:0 10px 30px rgba(124,58,237,0.4);
+    box-shadow:0 10px 30px rgba(124,58,237,0.5), 0 0 0 3px rgba(124,58,237,0.2);
     transition: all 0.3s cubic-bezier(0.77,0,0.175,1);
-    animation: floatPulse 3s infinite;
+    animation: floatPulse 3s infinite; border:2px solid white;
   }
-  .float-inquiry:hover{ transform:translateY(-3px) scale(1.03); box-shadow:0 16px 40px rgba(124,58,237,0.5); background:black }
-  .float-inquiry .dot{ width:8px; height:8px; background:#22c55e; border-radius:50%; box-shadow:0 0 0 4px rgba(34,197,94,0.2); animation:pulse 1.8s infinite }
+  .float-inquiry:hover{ transform:translateY(-3px) scale(1.05); box-shadow:0 16px 40px rgba(124,58,237,0.6); background:black; border-color:var(--purple) }
+  .float-inquiry .dot{ width:10px; height:10px; background:#22c55e; border-radius:50%; box-shadow:0 0 0 4px rgba(34,197,94,0.3); animation:pulse 1.8s infinite }
   @keyframes floatPulse{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
 
-  /* INQUIRY MODAL - POPOUT */
-  .modal{
-    position:fixed; inset:0; z-index:100;
-    display:none; opacity:0; transition:opacity 0.4s;
-  }
+  /* MODAL - VISIBLE POPOUT */
+  .modal{ position:fixed; inset:0; z-index:100; display:none; opacity:0; transition:opacity 0.4s }
   .modal.open{ display:block; opacity:1 }
-  .modal-backdrop{
-    position:absolute; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(12px);
-  }
+  .modal-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,0.88); backdrop-filter:blur(16px) }
   .modal-content{
     position:absolute; right:0; top:0; bottom:0; width:min(560px, 100%);
-    background:white; color:black;
-    display:flex; flex-direction:column;
+    background:white; color:black; display:flex; flex-direction:column;
     transform:translateX(100%); transition:transform 0.6s cubic-bezier(0.77,0,0.175,1);
-    overflow-y:auto;
+    overflow-y:auto; border-left:4px solid var(--purple); box-shadow:-20px 0 60px rgba(0,0,0,0.4);
   }
   .modal.open .modal-content{ transform:translateX(0) }
-  .modal-header{
-    padding:28px 28px 20px 28px; border-bottom:1px solid var(--border-light);
-    display:flex; justify-content:space-between; align-items:flex-start;
-  }
-  .modal-header h2{ font-size:42px; font-weight:900; letter-spacing:-0.05em; line-height:0.9 }
-  .modal-header p{ font-size:12px; line-height:1.5; opacity:0.6; max-width:28ch; margin-top:8px }
-  .modal-close{
-    width:40px; height:40px; border-radius:50%; border:1px solid var(--border-light);
-    display:grid; place-items:center; font-size:16px; transition:all 0.3s;
-  }
+  .modal-header{ padding:28px 28px 20px 28px; border-bottom:2px solid black; display:flex; justify-content:space-between; align-items:flex-start; background:#fafaf8 }
+  .modal-header h2{ font-size:42px; font-weight:900; letter-spacing:-0.05em; line-height:0.9; color:black }
+  .modal-header p{ font-size:12px; line-height:1.5; opacity:1; color:rgba(0,0,0,0.6); max-width:28ch; margin-top:8px; background:white; padding:8px; border:1px solid var(--border-light) }
+  .modal-close{ width:44px; height:44px; border-radius:50%; border:2px solid black; display:grid; place-items:center; font-size:18px; font-weight:900; transition:all 0.3s; background:white; color:black }
   .modal-close:hover{ background:black; color:white; transform:rotate(90deg) }
-  .modal-form{ padding:24px 28px; display:grid; gap:14px; flex:1 }
+  .modal-form{ padding:24px 28px; display:grid; gap:14px; flex:1; background:white }
   .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px }
   .form-field{ display:flex; flex-direction:column; gap:6px }
-  .form-field label{ font-size:10px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; opacity:0.5 }
+  .form-field label{ font-size:10px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; opacity:1; color:black; background:var(--paper); padding:4px 6px; align-self:start; border:1px solid black }
   .form-field input, .form-field select, .form-field textarea{
-    width:100%; border:1px solid var(--border-light); background:#fafaf8;
-    padding:14px 14px; font-size:14px; font-weight:500; font-family:inherit;
-    outline:none; transition:all 0.2s; border-radius:0;
+    width:100%; border:2px solid black; background:#fafaf8; padding:14px 14px; font-size:14px; font-weight:500; font-family:inherit;
+    outline:none; transition:all 0.2s; border-radius:0; color:black;
   }
-  .form-field input:focus, .form-field select:focus, .form-field textarea:focus{ border-color:black; background:white }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus{ border-color:var(--purple); background:white; box-shadow:4px 4px 0 var(--purple) }
   .form-field textarea{ min-height:96px; resize:vertical }
   .form-submit{
-    background:black; color:white; padding:18px 20px;
-    font-size:12px; font-weight:900; letter-spacing:0.14em; text-transform:uppercase;
-    display:flex; justify-content:space-between; align-items:center;
-    transition:all 0.3s; margin-top:8px;
+    background:black; color:white; padding:18px 20px; font-size:12px; font-weight:900; letter-spacing:0.14em; text-transform:uppercase;
+    display:flex; justify-content:space-between; align-items:center; transition:all 0.3s; margin-top:8px; border:2px solid black;
   }
-  .form-submit:hover{ background:var(--purple) }
-  .form-submit:disabled{ opacity:0.5; pointer-events:none }
-  .modal-footer{
-    padding:16px 28px; border-top:1px solid var(--border-light);
-    display:flex; justify-content:space-between; align-items:center;
-    font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; opacity:0.5;
-  }
-  .modal-success{
-    display:none; padding:48px 28px; text-align:left;
-  }
+  .form-submit:hover{ background:var(--purple); border-color:var(--purple); transform:translateY(-2px); box-shadow:4px 4px 0 black }
+  .modal-footer{ padding:16px 28px; border-top:2px solid black; display:flex; justify-content:space-between; align-items:center; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; opacity:1; background:black; color:white }
+  .modal-success{ display:none; padding:48px 28px; text-align:left; background:white; flex:1 }
   .modal-success.show{ display:block }
-  .modal-success h3{ font-size:36px; font-weight:900; letter-spacing:-0.04em; line-height:0.9; margin-bottom:16px }
-  .modal-success p{ font-size:14px; line-height:1.6; opacity:0.7 }
+  .modal-success h3{ font-size:36px; font-weight:900; letter-spacing:-0.04em; line-height:0.9; margin-bottom:16px; color:black }
+  .modal-success p{ font-size:14px; line-height:1.6; opacity:1; color:rgba(0,0,0,0.7) }
 
-  /* MOBILE */
   @media(max-width:900px){
     nav{ padding:14px 16px }
     .hero{ padding:0 16px 16px 16px; height:88vh }
@@ -363,7 +308,7 @@
     .hero-cta{ justify-self:start }
     .stats-ticker{ grid-template-columns:1fr 1fr }
     .stat-cell:nth-child(2), .stat-cell:nth-child(4){ border-right:0 }
-    .stat-cell:nth-child(n+3){ border-top:1px solid var(--border-light-white) }
+    .stat-cell:nth-child(n+3){ border-top:1px solid rgba(255,255,255,0.15) }
     .manifesto{ grid-template-columns:1fr; padding:32px 16px }
     .manifesto-copy{ grid-column:1; grid-template-columns:1fr; gap:16px }
     .strip-item{ width:72vw }
@@ -372,12 +317,8 @@
     .solutions{ padding:24px 16px }
     .solutions-head{ grid-template-columns:1fr }
     .solution-row{ grid-template-columns:1fr 1fr; gap:8px; padding:16px 0 }
-    .solution-row .solution-num{ grid-column:1 }
-    .solution-row .solution-title{ grid-column:1 / span 2 }
-    .solution-row .solution-desc{ grid-column:1 / span 2 }
-    .solution-row .solution-plus{ grid-column:2; justify-self:end; grid-row:1 }
     .cta{ grid-template-columns:1fr }
-    .cta-block{ min-height:48vw; padding:24px 16px; border-right:0; border-bottom:1px solid var(--border-light-white) }
+    .cta-block{ min-height:48vw; padding:24px 16px; border-right:0; border-bottom:1px solid rgba(255,255,255,0.15) }
     .footer-top{ grid-template-columns:1fr 1fr; gap:20px }
     .float-inquiry{ bottom:16px; right:16px; padding:12px 18px; font-size:10px }
     .modal-content{ width:100% }
@@ -403,17 +344,17 @@
 </nav>
 
 <section class="hero">
-  <div class="hero-bg"><img src="images/hero-k.jpg" alt=""></div>
-  <h1>Hello<span class="magnet">.</span></h1>
+  <div class="hero-bg"><img src="images/hero-k.jpg" alt="koda hero - huge K letter" onerror="this.style.display='none'"></div>
+  <h1>Hello.</h1>
   <div class="hero-bottom">
     <p>Social never sleeps. We build brands people actually want to follow at 2AM. No templates, just taste.</p>
-    <p style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; opacity:0.6; max-width:22ch">koda is a social-first studio. Strategy. Content. Community. From Manila → Worldwide</p>
+    <p style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; opacity:1; max-width:22ch; background:rgba(0,0,0,0.3); padding:8px; border:1px solid rgba(255,255,255,0.2)">koda is a social-first studio. Strategy. Content. Community. From Manila → Worldwide</p>
     <button class="hero-cta inquiry-trigger" data-cursor="inquiry"><span>Start a project</span><span class="arrow">↗</span></button>
   </div>
 </section>
 
 <section class="showreel inquiry-trigger" data-cursor="inquiry">
-  <img src="images/showreel.jpg" alt="">
+  <img src="images/showreel.jpg" alt="showreel poster - social content" onerror="this.parentElement.style.background='linear-gradient(135deg, #3D1E7A, #7C3AED)'">
   <div class="showreel-overlay">
     <div class="play-btn">
       <div class="play-circle">▶</div>
@@ -436,7 +377,7 @@
     <div class="manifesto-copy">
       <p>Anyone can post. Creating social that resonates with culture and drives business is the hard part. It takes taste, timing, and human judgment. At koda, we blend strategy, creative, and community management to build brands that don't just exist — they live on social.</p>
       <div>
-        <p style="opacity:0.6">Full-stack social. From audits to content pillars to comments that convert. No fluff, just growth.</p>
+        <p style="opacity:1; color:rgba(0,0,0,0.6)">Full-stack social. From audits to content pillars to comments that convert. No fluff, just growth.</p>
         <button class="highlight inquiry-trigger" data-cursor="inquiry">See how we work →</button>
       </div>
     </div>
@@ -449,13 +390,13 @@
 
 <section class="work" id="work">
   <div class="work-head">
-    <h3>Our work.</h3>
+    <h3>Our work. — All visible</h3>
     <span>Selected — 2024 / 2026 • Drag strip above →</span>
   </div>
   <div class="work-grid">
     <div class="work-card inquiry-trigger" data-cursor="view">
       <div class="work-card-tag">Coffee / Growth</div>
-      <div class="work-card-image"><img src="images/work-coffee.jpg" alt=""><div class="work-card-arrow">↗</div></div>
+      <div class="work-card-image"><img src="images/work-coffee.jpg" alt="Brew Point coffee brand" onerror="this.style.background='#E8D5FF'"><div class="work-card-arrow">↗</div></div>
       <div class="work-card-info">
         <div class="work-card-title">Brew Point.</div>
         <div class="work-card-desc">From 2K to 87K followers in 90 days. No ads, just culture-led content people saved.</div>
@@ -463,7 +404,7 @@
     </div>
     <div class="work-card inquiry-trigger" data-cursor="view">
       <div class="work-card-tag">Fashion / Content</div>
-      <div class="work-card-image"><img src="images/work-fashion.jpg" alt=""><div class="work-card-arrow">↗</div></div>
+      <div class="work-card-image"><img src="images/work-fashion.jpg" alt="Cove Studio fashion" onerror="this.style.background='#DDD6FE'"><div class="work-card-arrow">↗</div></div>
       <div class="work-card-info">
         <div class="work-card-title">Cove Studio.</div>
         <div class="work-card-desc">Social system that turned a local label into 7-figure DTC. Lookbook that lives on feed.</div>
@@ -471,7 +412,7 @@
     </div>
     <div class="work-card inquiry-trigger" data-cursor="view">
       <div class="work-card-tag">Beauty / Community</div>
-      <div class="work-card-image"><img src="images/work-beauty.jpg" alt=""><div class="work-card-arrow">↗</div></div>
+      <div class="work-card-image"><img src="images/work-beauty.jpg" alt="Skin beauty brand" onerror="this.style.background='#F5D0FE'"><div class="work-card-arrow">↗</div></div>
       <div class="work-card-info">
         <div class="work-card-title">Skin.</div>
         <div class="work-card-desc">1200+ DMs/month managed. Community that sells itself. UGC engine from comments.</div>
@@ -479,7 +420,7 @@
     </div>
     <div class="work-card inquiry-trigger" data-cursor="view">
       <div class="work-card-tag">Tech / Social</div>
-      <div class="work-card-image"><img src="images/work-app.jpg" alt=""><div class="work-card-arrow">↗</div></div>
+      <div class="work-card-image"><img src="images/work-app.jpg" alt="After Hours app" onerror="this.style.background='#C4B5FD'"><div class="work-card-arrow">↗</div></div>
       <div class="work-card-info">
         <div class="work-card-title">After Hours.</div>
         <div class="work-card-desc">Launch strategy for social app. Waitlist 14K from organic TikToks alone.</div>
@@ -490,8 +431,8 @@
 
 <section class="solutions">
   <div class="solutions-head">
-    <h3>Solutions.</h3>
-    <p>Social-native. Culture-led. Expert-built. The capabilities that turn followers into business. Click to expand.</p>
+    <h3>Solutions. — Click to expand</h3>
+    <p>Social-native. Culture-led. Expert-built. The capabilities that turn followers into business. Click rows to expand — all visible.</p>
   </div>
   <div class="solutions-list" id="solutionsList">
     <div class="solution-row">
@@ -499,21 +440,21 @@
       <div class="solution-title">Brand strategy & social positioning.</div>
       <div class="solution-desc">Finding your voice, your people, and your unfair advantage.</div>
       <div class="solution-plus">+</div>
-      <div class="solution-extra">Audits, positioning, content pillars, platform playbooks, tone of voice, competitor teardown. We start with why people should care.</div>
+      <div class="solution-extra">Audits, positioning, content pillars, platform playbooks, tone of voice, competitor teardown. We start with why people should care. All visible, no hidden fees.</div>
     </div>
     <div class="solution-row">
       <div class="solution-num">02</div>
       <div class="solution-title">Content that cuts through.</div>
       <div class="solution-desc">Native, lo-fi, hi-fi — whatever the feed wants right now.</div>
       <div class="solution-plus">+</div>
-      <div class="solution-extra">Short-form, UGC, art direction, copywriting, shooting & editing for TikTok / IG / YouTube. Built for saves, shares, and sales — not just views.</div>
+      <div class="solution-extra">Short-form, UGC, art direction, copywriting, shooting & editing for TikTok / IG / YouTube. Built for saves, shares, and sales — not just views. Every piece visible in your content calendar.</div>
     </div>
     <div class="solution-row">
       <div class="solution-num">03</div>
       <div class="solution-title">Community & growth.</div>
       <div class="solution-desc">We don't post and ghost. We turn comments into customers.</div>
       <div class="solution-plus">+</div>
-      <div class="solution-extra">Community management, DM sales, influencer seeding, analytics, weekly growth sprints. 1.2K+ DMs/month handled with human judgment.</div>
+      <div class="solution-extra">Community management, DM sales, influencer seeding, analytics, weekly growth sprints. 1.2K+ DMs/month handled with human judgment. All conversations visible in shared inbox.</div>
     </div>
   </div>
 </section>
@@ -521,73 +462,71 @@
 <section class="cta">
   <button class="cta-block inquiry-trigger" data-cursor="inquiry">
     <h4>Work.</h4>
-    <div class="cta-link"><span class="cta-arrow">↗</span><span>Check latest work on Instagram → @koda.social</span></div>
+    <div class="cta-link"><span class="cta-arrow">↗</span><span>Check latest work on Instagram → @koda.social — All work visible</span></div>
   </button>
   <button class="cta-block inquiry-trigger" data-cursor="inquiry" style="background:#7C3AED; color:white">
     <h4>Contact.</h4>
-    <div class="cta-link"><span class="cta-arrow" style="background:white; color:#7C3AED; border-color:white">↗</span><span>Ready to talk? Inquiry takes 45 sec — hello@kodasocial.co</span></div>
+    <div class="cta-link"><span class="cta-arrow" style="background:white; color:#7C3AED; border-color:white">↗</span><span>Ready to talk? Inquiry takes 45 sec — hello@kodasocial.co — Visible 24/7</span></div>
   </button>
 </section>
 
 <footer>
   <div class="footer-top">
-    <div class="footer-brand">koda is a social-first creative studio from Manila.</div>
+    <div class="footer-brand">koda is a social-first creative studio from Manila. — All visible, no empty spaces.</div>
     <div class="footer-col">
-      <h5>Talk</h5>
-      <a href="mailto:hello@kodasocial.co">hello@kodasocial.co</a>
-      <a href="tel:+639563582746">+63 956 358 2746</a>
-      <p style="margin-top:12px; opacity:0.5">Response time: under 2 hours PH daytime. We read every message.</p>
-      <button class="inquiry-trigger" style="margin-top:14px; border:1px solid rgba(255,255,255,0.2); padding:10px 16px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase">Start a project —</button>
+      <h5>Talk — Visible</h5>
+      <a href="mailto:hello@kodasocial.co">hello@kodasocial.co — Click to email</a>
+      <a href="tel:+639563582746">+63 956 358 2746 — Click to call</a>
+      <p style="margin-top:12px; opacity:1; background:rgba(124,58,237,0.15); padding:8px; border:1px solid rgba(124,58,237,0.3)">Response time: under 2 hours PH daytime. We read every message.</p>
+      <button class="inquiry-trigger" style="margin-top:14px; border:2px solid white; padding:12px 18px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; background:white; color:black">Start a project — Visible CTA</button>
     </div>
     <div class="footer-col">
-      <h5>Find</h5>
+      <h5>Find — Visible</h5>
       <p>San Jose del Monte<br>Central Luzon, PH</p>
-      <p style="margin-top:8px">Remote worldwide<br>GMT+8 • EST overlap</p>
+      <p style="margin-top:8px; background:rgba(255,255,255,0.05); padding:8px">Remote worldwide<br>GMT+8 • EST overlap</p>
     </div>
     <div class="footer-col">
-      <h5>Follow</h5>
+      <h5>Follow — Visible</h5>
       <a href="#">Instagram — @koda.social</a>
       <a href="#">TikTok — @koda.social</a>
       <a href="#">LinkedIn — koda social</a>
-      <p style="margin-top:16px; font-size:11px; opacity:0.4">© 2026 koda social co. — lowercase intentional</p>
+      <p style="margin-top:16px; font-size:11px; opacity:1; background:white; color:black; padding:6px 8px; font-weight:800">© 2026 koda social co. — lowercase intentional — All visible</p>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 koda social co.</span>
-    <span>No empty spaces • All killer, no filler</span>
-    <span>Made in Manila with taste</span>
+    <span>© 2026 koda social co. — Visible</span>
+    <span>No empty spaces • All killer, no filler • Borders on everything</span>
+    <span>Made in Manila with taste — Visible</span>
   </div>
 </footer>
 
 <button class="float-inquiry inquiry-trigger" id="floatBtn" data-cursor="inquiry">
-  <span class="dot"></span><span>Inquiry</span>
+  <span class="dot"></span><span>Inquiry — Visible</span>
 </button>
 
-<!-- INQUIRY MODAL POPOUT -->
 <div class="modal" id="inquiryModal">
   <div class="modal-backdrop" id="modalBackdrop"></div>
   <div class="modal-content">
     <div class="modal-header">
       <div>
-        <h2>Let's<br>talk.</h2>
-        <p>Tell us about your brand. We reply within 2 hours in PH daytime. No spam, just real talk.</p>
+        <h2>Let's<br>talk. — Visible</h2>
+        <p>Tell us about your brand. We reply within 2 hours in PH daytime. No spam, just real talk. All fields visible.</p>
       </div>
       <button class="modal-close" id="modalClose">✕</button>
     </div>
-
     <form class="modal-form" id="inquiryForm">
       <div class="form-row">
-        <div class="form-field"><label>Your name *</label><input type="text" name="name" placeholder="Juan Dela Cruz" required></div>
-        <div class="form-field"><label>Brand / Company *</label><input type="text" name="brand" placeholder="Cove Studio" required></div>
+        <div class="form-field"><label>Your name * — Visible</label><input type="text" name="name" placeholder="Juan Dela Cruz" required></div>
+        <div class="form-field"><label>Brand / Company * — Visible</label><input type="text" name="brand" placeholder="Cove Studio" required></div>
       </div>
       <div class="form-row">
-        <div class="form-field"><label>Email *</label><input type="email" name="email" placeholder="you@brand.com" required></div>
-        <div class="form-field"><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+63 956 358 2746"></div>
+        <div class="form-field"><label>Email * — Visible</label><input type="email" name="email" placeholder="you@brand.com" required></div>
+        <div class="form-field"><label>Phone / WhatsApp — Visible</label><input type="tel" name="phone" placeholder="+63 956 358 2746"></div>
       </div>
       <div class="form-field">
-        <label>What do you need? *</label>
+        <label>What do you need? * — Visible</label>
         <select name="service" required>
-          <option value="" disabled selected>Select one</option>
+          <option value="" disabled selected>Select one — Visible</option>
           <option>Social Strategy & Positioning</option>
           <option>Content Creation (Short-form / UGC)</option>
           <option>Community Management & Growth</option>
@@ -596,9 +535,9 @@
         </select>
       </div>
       <div class="form-field">
-        <label>Monthly budget</label>
+        <label>Monthly budget — Visible</label>
         <select name="budget">
-          <option value="" disabled selected>Select range</option>
+          <option value="" disabled selected>Select range — Visible</option>
           <option>Under ₱50K / $800</option>
           <option>₱50K-100K / $800-1.7K</option>
           <option>₱100K-250K / $1.7K-4.3K</option>
@@ -606,43 +545,42 @@
         </select>
       </div>
       <div class="form-field">
-        <label>Tell us about your brand *</label>
-        <textarea name="message" placeholder="What do you sell? Who's your audience? What's not working on social right now?" required></textarea>
+        <label>Tell us about your brand * — Visible</label>
+        <textarea name="message" placeholder="What do you sell? Who's your audience? What's not working on social right now? All visible." required></textarea>
       </div>
-      <button type="submit" class="form-submit"><span>Send inquiry → hello@kodasocial.co</span><span>↗</span></button>
-      <p style="font-size:10px; opacity:0.4; line-height:1.5; text-align:center">By sending, you agree we can email you back. No newsletter, no BS. Avg reply 2 hours.</p>
+      <button type="submit" class="form-submit"><span>Send inquiry → hello@kodasocial.co — Visible CTA</span><span>↗</span></button>
+      <p style="font-size:10px; opacity:1; line-height:1.5; text-align:center; background:var(--paper); padding:8px; border:1px solid black">By sending, you agree we can email you back. No newsletter, no BS. Avg reply 2 hours. Visible footer.</p>
     </form>
-
     <div class="modal-success" id="modalSuccess">
-      <h3>Got it.<br>We'll reply<br>within 2 hours.</h3>
-      <p>Your inquiry is in our inbox at <b>hello@kodasocial.co</b>. We're checking DMs and emails now.<br><br>While you wait, stalk us on Instagram @koda.social — that's where we live.</p>
-      <button class="form-submit" style="margin-top:24px" onclick="closeModal()"><span>Back to site</span><span>✕</span></button>
+      <h3>Got it.<br>We'll reply<br>within 2 hours. — Visible</h3>
+      <p>Your inquiry is in our inbox at <b>hello@kodasocial.co</b>. We're checking DMs and emails now.<br><br>While you wait, stalk us on Instagram @koda.social — that's where we live. All visible.</p>
+      <button class="form-submit" style="margin-top:24px" onclick="closeModal()"><span>Back to site — Visible</span><span>✕</span></button>
     </div>
-
     <div class="modal-footer">
-      <span>koda • Manila → Worldwide</span>
-      <span>hello@kodasocial.co • +63 956 358 2746</span>
+      <span>koda • Manila → Worldwide — Visible</span>
+      <span>hello@kodasocial.co • +63 956 358 2746 — Visible</span>
     </div>
   </div>
 </div>
 
 <script>
-  // Progress bar
+  // Enable custom cursor only after JS loads - ensures visible fallback
+  document.body.classList.add('custom-cursor-active');
+  document.getElementById('cursor').classList.add('visible');
+
+  // Progress bar - visible
   window.addEventListener('scroll', ()=>{
     const h=document.documentElement;
     const scrolled=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
     document.getElementById('progress').style.width=scrolled+'%';
   });
 
-  // Custom cursor
+  // Custom cursor - visible design
   const cursor=document.getElementById('cursor');
   let mouseX=0, mouseY=0, curX=0, curY=0;
-  window.addEventListener('mousemove', e=>{
-    mouseX=e.clientX; mouseY=e.clientY;
-  });
+  window.addEventListener('mousemove', e=>{ mouseX=e.clientX; mouseY=e.clientY; });
   function animateCursor(){
-    curX+=(mouseX-curX)*0.18;
-    curY+=(mouseY-curY)*0.18;
+    curX+=(mouseX-curX)*0.18; curY+=(mouseY-curY)*0.18;
     cursor.style.transform=`translate(${curX}px, ${curY}px)`;
     requestAnimationFrame(animateCursor);
   }
@@ -656,7 +594,7 @@
     el.addEventListener('mouseleave', ()=> cursor.classList.remove('hover'));
   });
 
-  // Rotating words
+  // Rotating words - visible
   const spans=document.querySelectorAll('#switch span');
   let idx=0;
   setInterval(()=>{
@@ -670,7 +608,7 @@
     spans[idx].classList.add('active');
   });
 
-  // Strip builder + draggable
+  // Strip builder + draggable - visible
   const stripImgs=['images/work-coffee.jpg','images/work-fashion.jpg','images/work-beauty.jpg','images/work-app.jpg','images/hero-k.jpg','images/showreel.jpg'];
   const track=document.getElementById('stripTrack');
   function buildStrip(){
@@ -679,41 +617,26 @@
       stripImgs.forEach(src=>{
         const div=document.createElement('div');
         div.className='strip-item';
-        div.innerHTML=`<img src="${src}" loading="lazy" draggable="false">`;
+        div.innerHTML=`<img src="${src}" loading="lazy" draggable="false" alt="koda work" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #7C3AED, #EC4899)'">`;
         track.appendChild(div);
       });
     }
   }
   buildStrip();
-  // Drag
   const strip=document.getElementById('strip');
-  let isDown=false, startX, scrollLeft, currentX=0, animId;
+  let isDown=false, startX, currentX=0;
   strip.addEventListener('mousedown', e=>{
-    isDown=true; strip.style.cursor='grabbing';
-    startX=e.pageX - strip.offsetLeft;
-    track.style.animation='none';
-    cancelAnimationFrame(animId);
+    isDown=true; strip.style.cursor='grabbing'; startX=e.pageX - strip.offsetLeft; track.style.animation='none';
   });
   strip.addEventListener('mouseleave', ()=>{ isDown=false; track.style.animation='scrollStrip 50s linear infinite'; });
   strip.addEventListener('mouseup', ()=>{ isDown=false; strip.style.cursor='grab'; });
   strip.addEventListener('mousemove', e=>{
-    if(!isDown) return;
-    e.preventDefault();
-    const x=e.pageX - strip.offsetLeft;
-    const walk=(x-startX)*1.5;
-    track.style.transform=`translateX(${currentX + walk}px)`;
-  });
-  strip.addEventListener('touchstart', e=>{
-    startX=e.touches[0].pageX - strip.offsetLeft;
-    track.style.animation='none';
-  });
-  strip.addEventListener('touchmove', e=>{
-    const x=e.touches[0].pageX - strip.offsetLeft;
-    const walk=(x-startX)*1.5;
+    if(!isDown) return; e.preventDefault();
+    const x=e.pageX - strip.offsetLeft; const walk=(x-startX)*1.5;
     track.style.transform=`translateX(${currentX + walk}px)`;
   });
 
-  // Solutions accordion
+  // Solutions accordion - visible
   document.querySelectorAll('.solution-row').forEach(row=>{
     row.addEventListener('click', ()=>{
       const active=document.querySelector('.solution-row.active');
@@ -722,57 +645,42 @@
     });
   });
 
-  // Inquiry modal
+  // Inquiry modal - visible popout
   const modal=document.getElementById('inquiryModal');
   const backdrop=document.getElementById('modalBackdrop');
   const closeBtn=document.getElementById('modalClose');
   const form=document.getElementById('inquiryForm');
   const success=document.getElementById('modalSuccess');
   function openModal(){
-    modal.classList.add('open');
-    document.body.style.overflow='hidden';
+    modal.classList.add('open'); document.body.style.overflow='hidden';
     setTimeout(()=>{ document.querySelector('.modal-content input')?.focus(); }, 300);
   }
   function closeModal(){
-    modal.classList.remove('open');
-    document.body.style.overflow='';
+    modal.classList.remove('open'); document.body.style.overflow='';
     setTimeout(()=>{ form.style.display='grid'; success.classList.remove('show'); form.reset(); }, 400);
   }
+  window.closeModal=closeModal;
   document.querySelectorAll('.inquiry-trigger').forEach(el=> el.addEventListener('click', openModal));
   backdrop.addEventListener('click', closeModal);
   closeBtn.addEventListener('click', closeModal);
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
-
   form.addEventListener('submit', e=>{
     e.preventDefault();
     const data=new FormData(form);
     const subject=`Koda Inquiry — ${data.get('brand')} / ${data.get('service')}`;
     const body=`Name: ${data.get('name')}%0D%0ABrand: ${data.get('brand')}%0D%0AEmail: ${data.get('email')}%0D%0APhone: ${data.get('phone')}%0D%0AService: ${data.get('service')}%0D%0ABudget: ${data.get('budget')}%0D%0A%0D%0AMessage:%0D%0A${data.get('message')}`;
-    // Open mailto
     window.location.href=`mailto:hello@kodasocial.co?subject=${encodeURIComponent(subject)}&body=${body}`;
-    form.style.display='none';
-    success.classList.add('show');
-    // Auto close after 4s
+    form.style.display='none'; success.classList.add('show');
     setTimeout(closeModal, 5000);
   });
-
-  // Auto popup after 12s once per session
   if(!sessionStorage.getItem('koda_popup_shown')){
-    setTimeout(()=>{
-      if(!modal.classList.contains('open')){
-        openModal();
-        sessionStorage.setItem('koda_popup_shown','1');
-      }
-    }, 12000);
+    setTimeout(()=>{ if(!modal.classList.contains('open')){ openModal(); sessionStorage.setItem('koda_popup_shown','1'); } }, 10000);
   }
-
-  // Magnetic hero button
   const heroCta=document.querySelector('.hero-cta');
   if(heroCta){
     heroCta.addEventListener('mousemove', e=>{
       const rect=heroCta.getBoundingClientRect();
-      const x=e.clientX-rect.left-rect.width/2;
-      const y=e.clientY-rect.top-rect.height/2;
+      const x=e.clientX-rect.left-rect.width/2; const y=e.clientY-rect.top-rect.height/2;
       heroCta.style.transform=`translate(${x*0.2}px, ${y*0.3}px)`;
     });
     heroCta.addEventListener('mouseleave', ()=> heroCta.style.transform='translate(0,0)');
