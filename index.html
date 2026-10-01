@@ -71,80 +71,33 @@
   .nav-pill.filled{ background:white; color:black }
   .nav-pill.filled:hover{ background:var(--purple); color:white; border-color:var(--purple) }
 
-  /* HERO - NO BLUR AFFECTING DESIGN */
+  /* HERO - HUGE STYLE, CONTENT NOT SEPARATED FROM HELLO. LIKE REFERENCE */
   .hero{
-    position:relative; width:100%; height:94vh; min-height:640px;
-    background:#1A0B2E; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between;
-    border-bottom:3px solid black; isolation:isolate;
+    position:relative; width:100%; height:92vh; min-height:640px;
+    background:#000; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end;
+    border-bottom:1px solid #111; isolation:isolate;
   }
-  .hero-bg{ position:absolute; inset:0; z-index:0; overflow:hidden; background:#1A0B2E }
-  .hero-bg img{ 
-    width:100%; height:100%; object-fit:cover; display:block;
-    will-change:transform;
-  }
-  .hero-bg::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(26,11,46,0.15) 0%, rgba(26,11,46,0.25) 45%, rgba(0,0,0,0.78) 100%) }
-  /* REMOVED grain blur that was affecting design */
+  .hero-bg{ position:absolute; inset:0; z-index:0; overflow:hidden; background:#000 }
+  .hero-bg img{ width:100%; height:100%; object-fit:cover; display:block }
+  .hero-bg::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.7) 100%) }
   .hero-content{
-    position:relative; z-index:2; height:100%; display:flex; flex-direction:column; justify-content:flex-end;
-    padding: 80px 0 0 0; pointer-events:none; gap:0;
+    position:relative; z-index:2; padding:0 24px 28px 24px;
+    display:flex; flex-direction:column; align-items:flex-start; gap:0;
   }
-  .hero-content *{ pointer-events:auto }
   .hero h1{
-    color:white; font-size:clamp(72px, 15vw, 200px); font-weight:900; letter-spacing:-0.07em; line-height:0.8;
-    margin:0; padding:0 24px; opacity:0; transform:translateY(60px);
-    animation: heroTitleReveal 1.2s cubic-bezier(0.77,0,0.175,1) 0.2s forwards;
+    color:white; font-size:clamp(80px, 13vw, 176px); font-weight:900; letter-spacing:-0.06em; line-height:0.85;
+    margin:0; opacity:0; transform:translateY(50px);
+    animation: heroTitleReveal 1s cubic-bezier(0.77,0,0.175,1) 0.2s forwards;
   }
   @keyframes heroTitleReveal{ to{ opacity:1; transform:translateY(0) } }
-
-  .hero-bottom-new{
-    display:grid; grid-template-columns: 1.1fr 0.7fr auto; gap:0;
-    margin-top:12px; border-top:2px solid var(--purple);
-    border-left:0; border-right:0; border-bottom:0;
-    background:rgba(0,0,0,0.92);
-    overflow:hidden; transform:translateY(24px); opacity:0;
-    animation: bottomReveal 0.8s cubic-bezier(0.77,0,0.175,1) 0.7s forwards;
-    width:100%;
+  .hero-sub{
+    color:white; font-size:clamp(16px, 1.5vw, 20px); font-weight:700; line-height:1.15; letter-spacing:-0.02em;
+    max-width:32ch; margin-top:14px; opacity:0; transform:translateY(20px);
+    animation: heroSubReveal 0.9s cubic-bezier(0.77,0,0.175,1) 0.55s forwards;
   }
-  @keyframes bottomReveal{ to{ transform:translateY(0); opacity:1 } }
-  .hero-left{
-    padding:20px 20px; display:flex; gap:14px; align-items:flex-start;
-    border-right:1px solid rgba(255,255,255,0.12); position:relative;
-  }
-  .hero-left::before{
-    content:""; position:absolute; top:0; left:0; width:100%; height:2px;
-    background:var(--purple); transform:scaleX(0); transform-origin:left;
-    animation: lineGrow 1s cubic-bezier(0.77,0,0.175,1) 1.1s forwards;
-  }
-  @keyframes lineGrow{ to{ transform:scaleX(1) } }
-  .live-indicator{ position:relative; width:28px; height:28px; flex-shrink:0; margin-top:2px }
-  .live-dot{ position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:8px; height:8px; background:#22c55e; border-radius:50%; z-index:2 }
-  .live-ring{ position:absolute; inset:0; border:1px solid rgba(34,197,94,0.5); border-radius:50%; animation: ringPulse 2s infinite }
-  @keyframes ringPulse{ 0%{ transform:scale(0.6); opacity:1 } 100%{ transform:scale(1.4); opacity:0 } }
-  .hero-left p{ font-size:13.5px; line-height:1.5; max-width:32ch; font-weight:500; color:rgba(255,255,255,0.9) }
-
-  .hero-center{ padding:16px 20px; border-right:1px solid rgba(255,255,255,0.12); display:flex; align-items:center; background:rgba(255,255,255,0.03) }
-  .meta-stack{ display:flex; flex-direction:column; gap:2px }
-  .meta-stack span{ font-size:10px; font-weight:800; letter-spacing:0.13em; text-transform:uppercase; line-height:1.35; color:rgba(255,255,255,0.65) }
-  .meta-stack span.accent{ color:white; background:var(--purple); padding:3px 6px; margin-top:3px; display:inline-block; width:fit-content }
-
-  .hero-cta-new{
-    background:white; color:black; padding:0 24px; min-width:210px;
-    display:flex; align-items:center; justify-content:space-between; gap:14px;
-    font-size:11px; font-weight:900; letter-spacing:0.14em; text-transform:uppercase;
-    transition: all 0.35s cubic-bezier(0.77,0,0.175,1); position:relative; overflow:hidden; border:none;
-  }
-  .hero-cta-new::before{ content:""; position:absolute; inset:0; background:var(--purple); transform:translateY(100%); transition: transform 0.45s cubic-bezier(0.77,0,0.175,1); z-index:0 }
-  .hero-cta-new:hover::before{ transform:translateY(0) }
-  .hero-cta-new:hover{ color:white }
-  .hero-cta-new .cta-text, .hero-cta-new .cta-icon{ position:relative; z-index:1; transition: all 0.35s }
-  .hero-cta-new .cta-icon{
-    width:32px; height:32px; border-radius:50%; background:black; color:white;
-    display:grid; place-items:center; font-size:13px; font-weight:900; transition: all 0.4s;
-  }
-  .hero-cta-new:hover .cta-icon{ background:white; color:var(--purple); transform:rotate(-45deg) scale(1.1) }
-
+  @keyframes heroSubReveal{ to{ opacity:1; transform:translateY(0) } }
   .hero-scroll{
-    position:absolute; bottom:20px; left:20px; z-index:3;
+    position:absolute; bottom:20px; right:24px; z-index:3;
     display:flex; align-items:center; gap:10px;
     font-size:9px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.45);
   }
@@ -365,28 +318,10 @@
 </nav>
 
 <section class="hero">
-  <div class="hero-bg"><img src="images/hero-k.jpg" alt="koda hero" onerror="this.style.display='none'"></div>
+  <div class="hero-bg"><img src="images/hero-k.jpg" alt="koda hero - pink H style" onerror="this.style.display='none'"></div>
   <div class="hero-content">
     <h1 class="hero-title">Hello.</h1>
-    <div class="hero-bottom-new">
-      <div class="hero-left">
-        <div class="live-indicator"><div class="live-dot"></div><div class="live-ring"></div></div>
-        <p>Social never sleeps. We build brands people actually want to follow at 2AM. No templates, just taste.</p>
-      </div>
-      <div class="hero-center">
-        <div class="meta-stack">
-          <span>KODA IS A SOCIAL-</span>
-          <span>FIRST STUDIO.</span>
-          <span>STRATEGY. CONTENT.</span>
-          <span>COMMUNITY. FROM</span>
-          <span class="accent">MANILA → WORLDWIDE</span>
-        </div>
-      </div>
-      <button class="hero-cta-new inquiry-trigger" data-cursor="inquiry" type="button">
-        <span class="cta-text">START A PROJECT</span>
-        <span class="cta-icon">↗</span>
-      </button>
-    </div>
+    <p class="hero-sub">Hope this beats your last meeting. Social never sleeps. We build brands people actually want to follow at 2AM. Just another perfectly normal weekday at koda.</p>
   </div>
   <div class="hero-scroll"><span>SCROLL</span><div class="scroll-line"></div></div>
 </section>
