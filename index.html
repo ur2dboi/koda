@@ -13,511 +13,476 @@
     --purple:#7C3AED;
     --purple-deep:#3D1E7A;
     --purple-light:#B794F6;
-    --magenta:#A855F7;
-    --border: #000;
     --border-light: rgba(0,0,0,0.12);
-    --border-light-white: rgba(255,255,255,0.15);
+    --border-light-white: rgba(255,255,255,0.14);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth; background:var(--white)}
+  html{scroll-behavior:smooth;background:#fff}
   body{
     font-family:"Inter", Helvetica, Arial, sans-serif;
-    background:var(--white);
-    color:var(--black);
+    background:var(--white); color:var(--black);
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
     line-height:1;
+    cursor:none;
   }
-  a{color:inherit;text-decoration:none}
-  button{border:0;background:none;cursor:pointer;font:inherit}
+  a{color:inherit;text-decoration:none;cursor:none}
+  button{border:0;background:none;cursor:none;font:inherit}
+  @media(max-width:900px){ body, a, button{ cursor:auto } }
 
-  /* NAV - Huge style */
-  nav{
-    position:fixed; top:0; left:0; right:0; z-index:50;
-    display:flex; justify-content:space-between; align-items:center;
-    padding: 22px 32px;
+  /* PROGRESS */
+  #progress{
+    position:fixed; top:0; left:0; height:3px; width:0%;
+    background:var(--purple); z-index:1000;
+    transition:width 0.1s linear;
+  }
+
+  /* CUSTOM CURSOR - Huge style dot */
+  .cursor{
+    position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
     mix-blend-mode:difference;
-    color:white;
+    display:flex; align-items:center; justify-content:center;
   }
-  .logo{
-    font-weight:900; font-size:26px; letter-spacing:-0.04em; line-height:1;
+  .cursor-dot{
+    width:8px; height:8px; background:white; border-radius:50%;
+    transition: transform 0.18s cubic-bezier(0.77,0,0.175,1);
   }
-  .logo span{ font-weight:400; opacity:0.6 }
-  .nav-right{
-    display:flex; gap:28px; align-items:center;
-    font-size:13px; font-weight:600; letter-spacing:0.08em;
+  .cursor-ring{
+    position:absolute; width:44px; height:44px; border:1px solid rgba(255,255,255,0.6);
+    border-radius:50%; transition: all 0.22s cubic-bezier(0.77,0,0.175,1);
   }
-  .menu-btn{
-    width:44px; height:44px; border:1px solid white; border-radius:50%;
-    display:grid; place-items:center; font-size:18px;
+  .cursor.hover .cursor-dot{ transform:scale(4) }
+  .cursor.hover .cursor-ring{ transform:scale(1.6); opacity:0 }
+  .cursor.view .cursor-ring{ width:88px; height:88px; background:white; border-color:white }
+  .cursor.view .cursor-ring::after{
+    content:"VIEW"; position:absolute; inset:0; display:grid; place-items:center;
+    color:black; font-size:11px; font-weight:900; letter-spacing:0.12em;
   }
+  .cursor.inquiry .cursor-ring{ width:92px; height:92px; background:var(--purple); border-color:var(--purple) }
+  .cursor.inquiry .cursor-ring::after{
+    content:"TALK →"; position:absolute; inset:0; display:grid; place-items:center;
+    color:white; font-size:11px; font-weight:900; letter-spacing:0.1em;
+  }
+  @media(max-width:900px){ .cursor{ display:none } }
 
-  /* HERO - Exact Huge */
+  /* NAV */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:60;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:18px 24px;
+    mix-blend-mode:difference; color:white;
+  }
+  .logo{ font-weight:900; font-size:24px; letter-spacing:-0.04em; display:flex; align-items:center; gap:8px }
+  .logo i{ width:8px; height:8px; background:var(--purple); border-radius:50%; display:inline-block; animation:pulse 2s infinite }
+  @keyframes pulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.6)} }
+  .nav-right{ display:flex; gap:16px; align-items:center }
+  .nav-pill{
+    font-size:11px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase;
+    border:1px solid white; padding:10px 18px; border-radius:999px;
+    transition: all 0.3s;
+  }
+  .nav-pill:hover{ background:white; color:black }
+  .nav-pill.filled{ background:white; color:black }
+  .nav-pill.filled:hover{ background:var(--purple); color:white; border-color:var(--purple) }
+
+  /* HERO */
   .hero{
-    position:relative;
-    width:100%;
-    height:92vh;
-    min-height:620px;
-    background: var(--purple);
-    overflow:hidden;
+    position:relative; width:100%; height:92vh; min-height:640px;
+    background:var(--purple); overflow:hidden;
     display:flex; flex-direction:column; justify-content:flex-end;
-    padding: 0 2.5vw 3vw 2.5vw;
+    padding:0 24px 24px 24px;
   }
-  .hero-bg{
-    position:absolute; inset:0;
-    z-index:0;
-  }
-  .hero-bg img{
-    width:100%; height:100%; object-fit:cover;
-    opacity:1;
-  }
-  .hero-bg::after{
-    content:""; position:absolute; inset:0;
-    background: linear-gradient(180deg, rgba(61,30,122,0.1) 0%, rgba(61,30,122,0.6) 100%);
-  }
-  .hero-top{
-    position:absolute; top:0; left:0; right:0;
-    padding: 120px 2.5vw 0 2.5vw;
-    z-index:2;
-    pointer-events:none;
-  }
+  .hero-bg{ position:absolute; inset:0; z-index:0 }
+  .hero-bg img{ width:100%; height:100%; object-fit:cover }
+  .hero-bg::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(61,30,122,0.15) 0%, rgba(0,0,0,0.65) 100%) }
   .hero h1{
-    position:relative; z-index:2;
-    font-size: clamp(80px, 15vw, 220px);
-    font-weight:900;
-    letter-spacing:-0.06em;
-    line-height:0.85;
-    color:var(--white);
+    position:relative; z-index:2; color:white;
+    font-size:clamp(72px, 14vw, 200px); font-weight:900; letter-spacing:-0.06em; line-height:0.85;
   }
+  .hero h1 .magnet{ display:inline-block; transition:transform 0.3s }
   .hero-bottom{
-    position:relative; z-index:2;
-    display:flex; justify-content:space-between; align-items:flex-end;
-    gap:4vw;
-    color:var(--white);
+    position:relative; z-index:2; color:white;
+    display:grid; grid-template-columns:1.2fr 0.8fr auto;
+    gap:24px; align-items:end; margin-top:2vw;
   }
-  .hero-bottom p{
-    font-size: clamp(14px, 1.15vw, 18px);
-    line-height:1.45;
-    max-width:36ch;
-    font-weight:500;
-    opacity:0.95;
+  .hero-bottom p{ font-size:15px; line-height:1.5; max-width:38ch; font-weight:500; opacity:0.9 }
+  .hero-cta{
+    justify-self:end;
+    background:white; color:black;
+    padding:16px 24px; border-radius:999px;
+    font-size:12px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase;
+    display:flex; align-items:center; gap:12px;
+    transition: all 0.3s cubic-bezier(0.77,0,0.175,1);
   }
-  .hero-bottom .side{
-    font-size:12px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; opacity:0.7;
-    writing-mode:vertical-rl; transform:rotate(180deg);
-    display:none;
-  }
+  .hero-cta:hover{ background:var(--purple); color:white; transform:translateY(-2px) }
+  .hero-cta .arrow{ width:28px; height:28px; border-radius:50%; background:black; color:white; display:grid; place-items:center; transition:transform 0.3s }
+  .hero-cta:hover .arrow{ transform:rotate(-45deg); background:white; color:var(--purple) }
 
-  /* SHOWREEL - Huge style */
+  /* SHOWREEL */
   .showreel{
-    position:relative;
-    width:100%;
-    height:86vh;
-    min-height:520px;
-    background:var(--black);
-    overflow:hidden;
-    cursor:pointer;
+    position:relative; width:100%; height:72vh; min-height:480px;
+    background:black; overflow:hidden;
   }
-  .showreel img{
-    width:100%; height:100%; object-fit:cover; opacity:0.85;
-    transition: transform 0.8s cubic-bezier(0.77,0,0.175,1), opacity 0.4s;
-  }
-  .showreel:hover img{ transform:scale(1.03); opacity:0.75 }
-  .showreel-center{
-    position:absolute; inset:0;
-    display:grid; place-items:center;
-    z-index:2;
+  .showreel img{ width:100%; height:100%; object-fit:cover; opacity:0.9; transition:transform 0.9s cubic-bezier(0.77,0,0.175,1) }
+  .showreel:hover img{ transform:scale(1.04) }
+  .showreel-overlay{
+    position:absolute; inset:0; display:grid; place-items:center; z-index:2;
+    background: radial-gradient(60% 60% at 50% 50%, rgba(124,58,237,0.18) 0%, transparent 70%);
   }
   .play-btn{
-    display:flex; align-items:center; gap:20px;
-    color:var(--white);
+    display:flex; align-items:center; gap:18px; color:white;
+    mix-blend-mode:difference;
   }
   .play-circle{
-    width:88px; height:88px; border-radius:50%;
-    background:var(--white); color:var(--black);
-    display:grid; place-items:center;
-    font-size:20px; font-weight:900;
+    width:84px; height:84px; border-radius:50%; background:white; color:black;
+    display:grid; place-items:center; font-weight:900; font-size:18px;
     transition: transform 0.4s cubic-bezier(0.77,0,0.175,1);
   }
-  .showreel:hover .play-circle{ transform:scale(1.1) }
-  .play-text{
-    font-size: clamp(20px, 2.2vw, 36px);
-    font-weight:800; letter-spacing:-0.03em;
-  }
+  .showreel:hover .play-circle{ transform:scale(1.12) }
+  .play-text{ font-size:clamp(20px, 2.4vw, 36px); font-weight:800; letter-spacing:-0.03em }
 
-  /* MANIFESTO - Huge "We make things that matter..." */
-  .manifesto{
-    background:var(--white);
-    padding: 9vw 2.5vw 7vw 2.5vw;
-    border-bottom:1px solid var(--border-light);
-  }
-  .manifesto-inner{
-    max-width: 1600px;
-  }
-  .manifesto h2{
-    font-size: clamp(36px, 6.2vw, 96px);
-    font-weight:800;
-    letter-spacing:-0.05em;
-    line-height:0.9;
-    max-width: 16ch;
-  }
-  .manifesto h2 .switch{
-    display:inline-block;
-    position:relative;
-    color:var(--purple);
-  }
-  .manifesto h2 .switch span{
-    display:inline-block;
-    position:absolute; left:0; top:0;
-    opacity:0; transform:translateY(100%);
-    transition: all 0.6s cubic-bezier(0.77,0,0.175,1);
-    white-space:nowrap;
-  }
-  .manifesto h2 .switch span.active{
-    position:relative; opacity:1; transform:translateY(0);
-  }
-  .manifesto h2 .switch::after{
-    content:""; position:absolute; left:0; bottom:-4px; width:100%; height:4px; background:var(--purple);
-    transform:scaleX(0); transform-origin:left; transition: transform 0.6s 0.3s;
-  }
-  .manifesto h2 .switch.active::after{ transform:scaleX(1) }
-  .manifesto-bottom{
-    margin-top:4vw;
-    display:grid; grid-template-columns: 1fr 1fr;
-    gap:4vw;
-    border-top:1px solid var(--border-light);
-    padding-top:2.5vw;
-  }
-  .manifesto-bottom p{
-    font-size: clamp(15px, 1.2vw, 18px);
-    line-height:1.6;
-    max-width:42ch;
-    font-weight:500;
-  }
-  .manifesto-label{
-    font-size:11px; letter-spacing:0.18em; text-transform:uppercase; font-weight:800; opacity:0.4;
-  }
-
-  /* IMAGE STRIP - Huge scrolling images */
-  .strip{
-    background:var(--white);
-    overflow:hidden;
-    border-bottom:1px solid var(--border-light);
-    padding: 1.2vw 0;
-  }
-  .strip-track{
-    display:flex; gap:1.2vw;
-    animation: scrollStrip 60s linear infinite;
-    will-change:transform;
-    width:max-content;
-  }
-  .strip-item{
-    width:32vw; min-width:320px; aspect-ratio:16/10;
-    background:var(--paper);
-    overflow:hidden;
-    flex-shrink:0;
-  }
-  .strip-item img{ width:100%; height:100%; object-fit:cover; }
-  @keyframes scrollStrip{
-    from{ transform:translateX(0) }
-    to{ transform:translateX(-50%) }
-  }
-
-  /* LOGOS - Huge style */
-  .logos{
-    background:var(--white);
-    padding: 2vw 2.5vw;
-    border-bottom:1px solid var(--border-light);
-    display:grid; grid-template-columns: repeat(6, 1fr);
-    gap:1px;
-    background:var(--border-light);
-  }
-  .logo-cell{
-    background:var(--white);
-    aspect-ratio: 3/2;
-    display:grid; place-items:center;
-    padding:1.5vw;
-    font-size:11px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; opacity:0.6;
-  }
-
-  /* OUR WORK - Huge case studies */
-  .work{
-    background:var(--white);
-    padding: 5vw 2.5vw 0 2.5vw;
-  }
-  .work-head{
-    display:flex; justify-content:space-between; align-items:baseline;
-    border-bottom:1px solid var(--black);
-    padding-bottom:1.5vw; margin-bottom:2.5vw;
-  }
-  .work-head h3{
-    font-size: clamp(28px, 4vw, 64px); font-weight:800; letter-spacing:-0.04em;
-  }
-  .work-head span{
-    font-size:11px; letter-spacing:0.16em; text-transform:uppercase; font-weight:800; opacity:0.5;
-  }
-  .work-grid{
-    display:grid; grid-template-columns: 1fr 1fr;
-    gap:1px;
-    background:var(--border-light);
-    border:1px solid var(--border-light);
-  }
-  .work-card{
-    background:var(--white);
-    position:relative;
-    overflow:hidden;
-    cursor:pointer;
-  }
-  .work-card-image{
-    aspect-ratio:16/11;
-    overflow:hidden;
-    background:var(--paper);
-  }
-  .work-card-image img{
-    width:100%; height:100%; object-fit:cover;
-    transition: transform 0.9s cubic-bezier(0.77,0,0.175,1);
-  }
-  .work-card:hover .work-card-image img{ transform:scale(1.06) }
-  .work-card-info{
-    padding: 1.6vw 1.6vw 2vw 1.6vw;
-    display:flex; justify-content:space-between; gap:2vw;
-  }
-  .work-card-title{
-    font-size: clamp(18px, 1.8vw, 28px); font-weight:800; letter-spacing:-0.03em; line-height:1;
-  }
-  .work-card-desc{
-    font-size:13px; line-height:1.5; max-width:28ch; opacity:0.6; font-weight:500;
-  }
-  .work-card-tag{
-    position:absolute; top:1.2vw; left:1.2vw; z-index:2;
-    background:var(--white); color:var(--black);
-    font-size:10px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase;
-    padding:6px 10px;
-  }
-
-  /* SOLUTIONS - Huge black section */
-  .solutions{
-    background:var(--black);
-    color:var(--white);
-    padding: 6vw 2.5vw;
-  }
-  .solutions-head{
-    display:grid; grid-template-columns: 1fr 1fr;
-    gap:4vw;
-    margin-bottom:5vw;
-  }
-  .solutions-head h3{
-    font-size: clamp(36px, 5vw, 80px); font-weight:800; letter-spacing:-0.05em; line-height:0.9;
-  }
-  .solutions-head p{
-    font-size: clamp(14px, 1.15vw, 18px); line-height:1.5; opacity:0.6; max-width:38ch; padding-top:1vw;
-  }
-  .solutions-list{
+  /* TICKER STATS - NO EMPTY SPACE FILLER */
+  .stats-ticker{
+    background:black; color:white;
+    display:grid; grid-template-columns: repeat(4, 1fr);
     border-top:1px solid var(--border-light-white);
-  }
-  .solution-row{
-    display:grid; grid-template-columns: 80px 1fr 1fr;
-    gap:2vw;
-    padding: 2vw 0;
     border-bottom:1px solid var(--border-light-white);
-    transition: background 0.3s;
-    cursor:pointer;
   }
-  .solution-row:hover{ background: rgba(255,255,255,0.04) }
-  .solution-num{
-    font-size:12px; font-weight:800; letter-spacing:0.1em; opacity:0.4; padding-top:6px;
+  .stat-cell{
+    padding:18px 24px; border-right:1px solid var(--border-light-white);
+    display:flex; justify-content:space-between; align-items:center;
   }
-  .solution-title{
-    font-size: clamp(20px, 2.2vw, 32px); font-weight:800; letter-spacing:-0.03em; line-height:1;
-  }
-  .solution-desc{
-    font-size:14px; line-height:1.5; opacity:0.55; max-width:36ch;
-  }
+  .stat-cell:last-child{ border-right:0 }
+  .stat-num{ font-size:28px; font-weight:900; letter-spacing:-0.04em }
+  .stat-label{ font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; opacity:0.5; max-width:14ch; line-height:1.3; text-align:right }
 
-  /* CTA - Huge Work + Contact */
-  .cta{
-    background:var(--black);
-    color:var(--white);
-    border-top:1px solid var(--border-light-white);
-    display:grid; grid-template-columns: 1fr 1fr;
+  /* MANIFESTO - TIGHTER, NO EMPTY */
+  .manifesto{
+    background:white; padding:48px 24px 32px 24px;
+    display:grid; grid-template-columns: 140px 1fr;
+    gap:24px; border-bottom:1px solid var(--border-light);
   }
+  .manifesto-label{ font-size:10px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; opacity:0.35; padding-top:12px }
+  .manifesto h2{
+    font-size:clamp(32px, 5.6vw, 84px); font-weight:800; letter-spacing:-0.05em; line-height:0.92; max-width:18ch;
+  }
+  .manifesto h2 .switch{ color:var(--purple); position:relative; display:inline-block; min-width:4.8ch; cursor:pointer }
+  .manifesto h2 .switch span{
+    position:absolute; left:0; top:0; opacity:0; transform:translateY(100%);
+    transition: all 0.5s cubic-bezier(0.77,0,0.175,1); white-space:nowrap;
+  }
+  .manifesto h2 .switch span.active{ position:relative; opacity:1; transform:translateY(0) }
+  .manifesto-copy{
+    grid-column:2; margin-top:24px;
+    display:grid; grid-template-columns:1fr 1fr; gap:24px;
+    border-top:1px solid var(--border-light); padding-top:24px;
+  }
+  .manifesto-copy p{ font-size:15px; line-height:1.6; font-weight:500; max-width:42ch }
+  .manifesto-copy .highlight{
+    font-size:12px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase;
+    background:black; color:white; padding:10px 14px; align-self:start; display:inline-block; margin-top:12px;
+    transition: all 0.3s; cursor:pointer;
+  }
+  .manifesto-copy .highlight:hover{ background:var(--purple) }
+
+  /* STRIP - DRAGGABLE */
+  .strip{
+    background:white; overflow:hidden; border-bottom:1px solid var(--border-light);
+    padding:12px 0; cursor:grab; user-select:none;
+  }
+  .strip:active{ cursor:grabbing }
+  .strip-track{ display:flex; gap:12px; will-change:transform; width:max-content; animation:scrollStrip 50s linear infinite }
+  .strip:hover .strip-track{ animation-play-state:paused }
+  .strip-item{ width:28vw; min-width:280px; aspect-ratio:16/10; background:#f5f3ef; overflow:hidden; position:relative }
+  .strip-item img{ width:100%; height:100%; object-fit:cover; transition:transform 0.6s }
+  .strip-item:hover img{ transform:scale(1.08) }
+  .strip-item::after{ content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(0,0,0,0.4) 0%, transparent 50%); opacity:0; transition:opacity 0.3s }
+  .strip-item:hover::after{ opacity:1 }
+  @keyframes scrollStrip{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* WORK - NO EMPTY, TIGHT GRID */
+  .work{ background:white; padding:0 }
+  .work-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 24px; border-bottom:1px solid black; position:sticky; top:0; background:white; z-index:10;
+  }
+  .work-head h3{ font-size:24px; font-weight:900; letter-spacing:-0.04em }
+  .work-head span{ font-size:10px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; opacity:0.5 }
+  .work-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border-light); border-bottom:1px solid var(--border-light) }
+  .work-card{ background:white; position:relative; overflow:hidden }
+  .work-card-image{ aspect-ratio:16/11; overflow:hidden; background:#f5f3ef; position:relative }
+  .work-card-image img{ width:100%; height:100%; object-fit:cover; transition:transform 0.9s cubic-bezier(0.77,0,0.175,1) }
+  .work-card:hover .work-card-image img{ transform:scale(1.07) }
+  .work-card-tag{
+    position:absolute; top:12px; left:12px; z-index:2;
+    background:white; color:black; font-size:9px; font-weight:900; letter-spacing:0.12em; text-transform:uppercase;
+    padding:6px 10px; display:flex; gap:6px; align-items:center;
+  }
+  .work-card-tag::before{ content:""; width:6px; height:6px; background:var(--purple); border-radius:50%; display:inline-block; animation:pulse 1.5s infinite }
+  .work-card-info{ padding:18px 20px 20px 20px; display:flex; justify-content:space-between; gap:16px }
+  .work-card-title{ font-size:20px; font-weight:800; letter-spacing:-0.03em; line-height:1 }
+  .work-card-desc{ font-size:12.5px; line-height:1.5; opacity:0.6; max-width:26ch; font-weight:500 }
+  .work-card-arrow{
+    position:absolute; bottom:18px; right:18px; width:36px; height:36px; border-radius:50%; border:1px solid var(--border-light);
+    display:grid; place-items:center; opacity:0; transform:translateY(10px); transition:all 0.4s;
+  }
+  .work-card:hover .work-card-arrow{ opacity:1; transform:translateY(0); background:black; color:white; border-color:black }
+
+  /* SOLUTIONS - INTERACTIVE ACCORDION */
+  .solutions{ background:black; color:white; padding:32px 24px }
+  .solutions-head{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px }
+  .solutions-head h3{ font-size:clamp(28px, 4vw, 56px); font-weight:800; letter-spacing:-0.05em; line-height:0.9 }
+  .solutions-head p{ font-size:13px; line-height:1.5; opacity:0.55; max-width:32ch }
+  .solutions-list{ border-top:1px solid var(--border-light-white) }
+  .solution-row{
+    display:grid; grid-template-columns:60px 1fr 1fr 48px;
+    gap:16px; padding:20px 0; border-bottom:1px solid var(--border-light-white);
+    cursor:pointer; transition: all 0.3s;
+  }
+  .solution-row:hover{ background:rgba(255,255,255,0.04); padding-left:12px; padding-right:12px }
+  .solution-row.active{ background:rgba(124,58,237,0.12) }
+  .solution-num{ font-size:11px; font-weight:800; opacity:0.4; padding-top:4px }
+  .solution-title{ font-size:clamp(16px, 1.8vw, 24px); font-weight:800; letter-spacing:-0.02em; line-height:1.1 }
+  .solution-desc{ font-size:12.5px; line-height:1.5; opacity:0.55 }
+  .solution-extra{
+    grid-column:2 / span 2; max-height:0; overflow:hidden; opacity:0;
+    transition: all 0.5s cubic-bezier(0.77,0,0.175,1);
+    font-size:12px; line-height:1.6; opacity:0.6;
+  }
+  .solution-row.active .solution-extra{ max-height:120px; opacity:0.7; margin-top:12px; padding-top:12px; border-top:1px dashed rgba(255,255,255,0.15) }
+  .solution-plus{ width:32px; height:32px; border-radius:50%; border:1px solid var(--border-light-white); display:grid; place-items:center; font-size:14px; transition:all 0.3s }
+  .solution-row:hover .solution-plus{ background:white; color:black; transform:rotate(90deg) }
+  .solution-row.active .solution-plus{ background:var(--purple); color:white; border-color:var(--purple); transform:rotate(45deg) }
+
+  /* CTA - NO EMPTY, SPLIT WITH HOVER VIDEO EFFECT */
+  .cta{ background:black; color:white; display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--border-light-white) }
   .cta-block{
-    padding: 4vw 2.5vw;
-    border-right:1px solid var(--border-light-white);
-    min-height:38vw;
-    display:flex; flex-direction:column; justify-content:space-between;
-    position:relative; overflow:hidden;
-    transition: background 0.4s;
+    padding:32px 24px; min-height:28vw; display:flex; flex-direction:column; justify-content:space-between;
+    border-right:1px solid var(--border-light-white); position:relative; overflow:hidden; transition:background 0.4s;
   }
   .cta-block:last-child{ border-right:0 }
-  .cta-block:hover{ background:#111 }
-  .cta-block h4{
-    font-size: clamp(48px, 8vw, 120px); font-weight:900; letter-spacing:-0.06em; line-height:0.85;
+  .cta-block::before{
+    content:""; position:absolute; inset:0; background:radial-gradient(80% 80% at 20% 20%, rgba(124,58,237,0.3) 0%, transparent 70%);
+    opacity:0; transition:opacity 0.5s;
   }
-  .cta-block .cta-link{
-    display:flex; align-items:center; gap:16px;
-    font-size:14px; font-weight:700; letter-spacing:0.08em;
-    margin-top:2vw;
-  }
-  .cta-block .cta-arrow{
-    width:48px; height:48px; border-radius:50%; border:1px solid var(--border-light-white);
-    display:grid; place-items:center; transition: all 0.4s;
-  }
-  .cta-block:hover .cta-arrow{ background:var(--white); color:var(--black); transform:rotate(-45deg) }
+  .cta-block:hover::before{ opacity:1 }
+  .cta-block:hover{ background:#0f0f0f }
+  .cta-block h4{ font-size:clamp(40px, 7vw, 96px); font-weight:900; letter-spacing:-0.06em; line-height:0.85; position:relative; z-index:1 }
+  .cta-link{ display:flex; align-items:center; gap:12px; font-size:12px; font-weight:700; letter-spacing:0.08em; position:relative; z-index:1; margin-top:16px }
+  .cta-arrow{ width:40px; height:40px; border-radius:50%; border:1px solid var(--border-light-white); display:grid; place-items:center; transition:all 0.4s }
+  .cta-block:hover .cta-arrow{ background:white; color:black; transform:rotate(-45deg) scale(1.1) }
 
-  /* FOOTER - Huge style */
-  footer{
-    background:var(--black);
-    color:var(--white);
-    padding: 3vw 2.5vw 2vw 2.5vw;
-    border-top:1px solid var(--border-light-white);
+  /* FOOTER - DENSE */
+  footer{ background:black; color:white; padding:24px; border-top:1px solid var(--border-light-white) }
+  .footer-top{ display:grid; grid-template-columns:1.4fr 0.8fr 0.8fr 0.9fr; gap:24px; padding-bottom:24px }
+  .footer-brand{ font-size:28px; font-weight:900; letter-spacing:-0.04em; line-height:0.95 }
+  .footer-col h5{ font-size:10px; letter-spacing:0.16em; text-transform:uppercase; font-weight:800; opacity:0.35; margin-bottom:16px }
+  .footer-col a, .footer-col p{ display:block; font-size:13px; line-height:1.6; font-weight:500; opacity:0.75; margin-bottom:4px; transition:all 0.2s }
+  .footer-col a:hover{ opacity:1; color:var(--purple-light); transform:translateX(4px) }
+  .footer-bottom{ border-top:1px solid var(--border-light-white); padding-top:16px; display:flex; justify-content:space-between; font-size:9px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; opacity:0.3 }
+
+  /* FLOATING INQUIRY BUTTON */
+  .float-inquiry{
+    position:fixed; bottom:20px; right:20px; z-index:55;
+    background:var(--purple); color:white;
+    padding:14px 22px; border-radius:999px;
+    font-size:11px; font-weight:900; letter-spacing:0.14em; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px;
+    box-shadow:0 10px 30px rgba(124,58,237,0.4);
+    transition: all 0.3s cubic-bezier(0.77,0,0.175,1);
+    animation: floatPulse 3s infinite;
   }
-  .footer-top{
-    display:grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr;
-    gap:3vw;
-    padding-bottom:3vw;
+  .float-inquiry:hover{ transform:translateY(-3px) scale(1.03); box-shadow:0 16px 40px rgba(124,58,237,0.5); background:black }
+  .float-inquiry .dot{ width:8px; height:8px; background:#22c55e; border-radius:50%; box-shadow:0 0 0 4px rgba(34,197,94,0.2); animation:pulse 1.8s infinite }
+  @keyframes floatPulse{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+
+  /* INQUIRY MODAL - POPOUT */
+  .modal{
+    position:fixed; inset:0; z-index:100;
+    display:none; opacity:0; transition:opacity 0.4s;
   }
-  .footer-brand{
-    font-size: clamp(32px, 4vw, 56px); font-weight:900; letter-spacing:-0.05em; line-height:0.9;
+  .modal.open{ display:block; opacity:1 }
+  .modal-backdrop{
+    position:absolute; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(12px);
   }
-  .footer-col h5{
-    font-size:11px; letter-spacing:0.16em; text-transform:uppercase; font-weight:800; opacity:0.4; margin-bottom:1.6vw;
+  .modal-content{
+    position:absolute; right:0; top:0; bottom:0; width:min(560px, 100%);
+    background:white; color:black;
+    display:flex; flex-direction:column;
+    transform:translateX(100%); transition:transform 0.6s cubic-bezier(0.77,0,0.175,1);
+    overflow-y:auto;
   }
-  .footer-col a, .footer-col p{
-    display:block; font-size:14px; line-height:1.6; font-weight:500; opacity:0.8; margin-bottom:6px;
+  .modal.open .modal-content{ transform:translateX(0) }
+  .modal-header{
+    padding:28px 28px 20px 28px; border-bottom:1px solid var(--border-light);
+    display:flex; justify-content:space-between; align-items:flex-start;
   }
-  .footer-col a:hover{ opacity:1; color:var(--purple-light) }
-  .footer-bottom{
-    border-top:1px solid var(--border-light-white);
-    padding-top:1.6vw;
-    display:flex; justify-content:space-between;
-    font-size:10px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; opacity:0.35;
+  .modal-header h2{ font-size:42px; font-weight:900; letter-spacing:-0.05em; line-height:0.9 }
+  .modal-header p{ font-size:12px; line-height:1.5; opacity:0.6; max-width:28ch; margin-top:8px }
+  .modal-close{
+    width:40px; height:40px; border-radius:50%; border:1px solid var(--border-light);
+    display:grid; place-items:center; font-size:16px; transition:all 0.3s;
   }
+  .modal-close:hover{ background:black; color:white; transform:rotate(90deg) }
+  .modal-form{ padding:24px 28px; display:grid; gap:14px; flex:1 }
+  .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px }
+  .form-field{ display:flex; flex-direction:column; gap:6px }
+  .form-field label{ font-size:10px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; opacity:0.5 }
+  .form-field input, .form-field select, .form-field textarea{
+    width:100%; border:1px solid var(--border-light); background:#fafaf8;
+    padding:14px 14px; font-size:14px; font-weight:500; font-family:inherit;
+    outline:none; transition:all 0.2s; border-radius:0;
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus{ border-color:black; background:white }
+  .form-field textarea{ min-height:96px; resize:vertical }
+  .form-submit{
+    background:black; color:white; padding:18px 20px;
+    font-size:12px; font-weight:900; letter-spacing:0.14em; text-transform:uppercase;
+    display:flex; justify-content:space-between; align-items:center;
+    transition:all 0.3s; margin-top:8px;
+  }
+  .form-submit:hover{ background:var(--purple) }
+  .form-submit:disabled{ opacity:0.5; pointer-events:none }
+  .modal-footer{
+    padding:16px 28px; border-top:1px solid var(--border-light);
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; opacity:0.5;
+  }
+  .modal-success{
+    display:none; padding:48px 28px; text-align:left;
+  }
+  .modal-success.show{ display:block }
+  .modal-success h3{ font-size:36px; font-weight:900; letter-spacing:-0.04em; line-height:0.9; margin-bottom:16px }
+  .modal-success p{ font-size:14px; line-height:1.6; opacity:0.7 }
 
   /* MOBILE */
   @media(max-width:900px){
-    nav{ padding:18px 20px }
-    .hero{ height:88vh; padding:0 20px 28px 20px }
-    .hero h1{ font-size:88px }
-    .hero-bottom{ flex-direction:column; align-items:flex-start }
-    .showreel{ height:62vh }
-    .manifesto{ padding: 48px 20px }
-    .manifesto h2{ font-size:36px; max-width:100% }
-    .manifesto-bottom{ grid-template-columns:1fr; gap:24px }
-    .strip-item{ width:78vw }
-    .logos{ grid-template-columns: repeat(3, 1fr) }
-    .work{ padding: 32px 20px 0 20px }
+    nav{ padding:14px 16px }
+    .hero{ padding:0 16px 16px 16px; height:88vh }
+    .hero-bottom{ grid-template-columns:1fr; gap:16px }
+    .hero-cta{ justify-self:start }
+    .stats-ticker{ grid-template-columns:1fr 1fr }
+    .stat-cell:nth-child(2), .stat-cell:nth-child(4){ border-right:0 }
+    .stat-cell:nth-child(n+3){ border-top:1px solid var(--border-light-white) }
+    .manifesto{ grid-template-columns:1fr; padding:32px 16px }
+    .manifesto-copy{ grid-column:1; grid-template-columns:1fr; gap:16px }
+    .strip-item{ width:72vw }
+    .work-head{ padding:16px }
     .work-grid{ grid-template-columns:1fr }
-    .work-card-info{ flex-direction:column; padding:20px }
-    .solutions{ padding:40px 20px }
+    .solutions{ padding:24px 16px }
     .solutions-head{ grid-template-columns:1fr }
-    .solution-row{ grid-template-columns: 1fr; gap:10px; padding:24px 0 }
+    .solution-row{ grid-template-columns:1fr 1fr; gap:8px; padding:16px 0 }
+    .solution-row .solution-num{ grid-column:1 }
+    .solution-row .solution-title{ grid-column:1 / span 2 }
+    .solution-row .solution-desc{ grid-column:1 / span 2 }
+    .solution-row .solution-plus{ grid-column:2; justify-self:end; grid-row:1 }
     .cta{ grid-template-columns:1fr }
-    .cta-block{ min-height: 52vw; padding:28px 20px; border-right:0; border-bottom:1px solid var(--border-light-white) }
-    .footer-top{ grid-template-columns:1fr 1fr; gap:32px }
-    .footer-bottom{ flex-direction:column; gap:8px }
+    .cta-block{ min-height:48vw; padding:24px 16px; border-right:0; border-bottom:1px solid var(--border-light-white) }
+    .footer-top{ grid-template-columns:1fr 1fr; gap:20px }
+    .float-inquiry{ bottom:16px; right:16px; padding:12px 18px; font-size:10px }
+    .modal-content{ width:100% }
+    .form-row{ grid-template-columns:1fr }
   }
 </style>
 </head>
 <body>
 
+<div id="progress"></div>
+
+<div class="cursor" id="cursor">
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+</div>
+
 <nav>
-  <div class="logo">koda<span>.</span></div>
+  <div class="logo">koda<i></i></div>
   <div class="nav-right">
-    <span style="opacity:0.6">Manila — Worldwide</span>
-    <div class="menu-btn">—</div>
+    <button class="nav-pill inquiry-trigger" data-cursor="inquiry">Manila • Worldwide</button>
+    <button class="nav-pill filled inquiry-trigger" data-cursor="inquiry">Inquiry —</button>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-bg">
-    <img src="images/hero-k.jpg" alt="koda hero">
-  </div>
-  <div class="hero-top"></div>
-  <h1>Hello.</h1>
+  <div class="hero-bg"><img src="images/hero-k.jpg" alt=""></div>
+  <h1>Hello<span class="magnet">.</span></h1>
   <div class="hero-bottom">
-    <p>Burning the midnight oil? Good ideas don't clock out. We build social brands that people actually want to follow at 2AM.</p>
-    <p style="max-width:22ch; opacity:0.7; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; font-weight:700">koda is a social-first studio. Strategy. Content. Community. From Manila.</p>
+    <p>Social never sleeps. We build brands people actually want to follow at 2AM. No templates, just taste.</p>
+    <p style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; opacity:0.6; max-width:22ch">koda is a social-first studio. Strategy. Content. Community. From Manila → Worldwide</p>
+    <button class="hero-cta inquiry-trigger" data-cursor="inquiry"><span>Start a project</span><span class="arrow">↗</span></button>
   </div>
 </section>
 
-<section class="showreel" onclick="alert('Full showreel — DM @koda.social on IG for latest cuts')">
-  <img src="images/showreel.jpg" alt="showreel">
-  <div class="showreel-center">
+<section class="showreel inquiry-trigger" data-cursor="inquiry">
+  <img src="images/showreel.jpg" alt="">
+  <div class="showreel-overlay">
     <div class="play-btn">
       <div class="play-circle">▶</div>
-      <div class="play-text">Play showreel</div>
+      <div class="play-text">Play showreel — 00:42</div>
     </div>
   </div>
 </section>
+
+<div class="stats-ticker">
+  <div class="stat-cell"><div class="stat-num">87K+</div><div class="stat-label">Followers grown organically in 90 days</div></div>
+  <div class="stat-cell"><div class="stat-num">1.2K</div><div class="stat-label">DMs replied / month community</div></div>
+  <div class="stat-cell"><div class="stat-num">14K</div><div class="stat-label">Waitlist from TikToks alone</div></div>
+  <div class="stat-cell"><div class="stat-num">2H</div><div class="stat-label">Avg response time PH daytime</div></div>
+</div>
 
 <section class="manifesto">
-  <div class="manifesto-inner">
+  <div class="manifesto-label">( Our thing )</div>
+  <div>
     <h2>We make social that matters to <span class="switch" id="switch"><span class="active">people.</span><span>brands.</span><span>culture.</span><span>feeds.</span><span>clients.</span><span>community.</span><span>algorithms.</span></span></h2>
-    <div class="manifesto-bottom">
-      <div class="manifesto-label">( Our thing )</div>
-      <p>Anyone can post. Creating social that resonates with culture and drives business is the hard part. It takes taste, timing, and human judgment.<br><br>At koda, we blend strategy, creative, and community management to build brands that don't just exist on social — they live there. No templates. No fluff.</p>
+    <div class="manifesto-copy">
+      <p>Anyone can post. Creating social that resonates with culture and drives business is the hard part. It takes taste, timing, and human judgment. At koda, we blend strategy, creative, and community management to build brands that don't just exist — they live on social.</p>
+      <div>
+        <p style="opacity:0.6">Full-stack social. From audits to content pillars to comments that convert. No fluff, just growth.</p>
+        <button class="highlight inquiry-trigger" data-cursor="inquiry">See how we work →</button>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="strip">
-  <div class="strip-track" id="stripTrack">
-    <!-- duplicated via JS -->
-  </div>
+<div class="strip" id="strip">
+  <div class="strip-track" id="stripTrack"></div>
 </div>
 
-<div class="logos">
-  <div class="logo-cell">Brew Point</div>
-  <div class="logo-cell">Cove</div>
-  <div class="logo-cell">Sundays</div>
-  <div class="logo-cell">After Hours</div>
-  <div class="logo-cell">Kindred</div>
-  <div class="logo-cell">Local</div>
-  <div class="logo-cell">Matter</div>
-  <div class="logo-cell">Studio 110</div>
-  <div class="logo-cell">North</div>
-  <div class="logo-cell">Palm</div>
-  <div class="logo-cell">Good Days</div>
-  <div class="logo-cell">+12 more</div>
-</div>
-
-<section class="work">
+<section class="work" id="work">
   <div class="work-head">
     <h3>Our work.</h3>
-    <span>Selected — 2024 / 2026</span>
+    <span>Selected — 2024 / 2026 • Drag strip above →</span>
   </div>
   <div class="work-grid">
-    <div class="work-card">
+    <div class="work-card inquiry-trigger" data-cursor="view">
       <div class="work-card-tag">Coffee / Growth</div>
-      <div class="work-card-image"><img src="images/work-coffee.jpg" alt=""></div>
+      <div class="work-card-image"><img src="images/work-coffee.jpg" alt=""><div class="work-card-arrow">↗</div></div>
       <div class="work-card-info">
         <div class="work-card-title">Brew Point.</div>
-        <div class="work-card-desc">From 2K to 87K followers in 90 days. No ads, just culture-led content that people saved.</div>
+        <div class="work-card-desc">From 2K to 87K followers in 90 days. No ads, just culture-led content people saved.</div>
       </div>
     </div>
-    <div class="work-card">
+    <div class="work-card inquiry-trigger" data-cursor="view">
       <div class="work-card-tag">Fashion / Content</div>
-      <div class="work-card-image"><img src="images/work-fashion.jpg" alt=""></div>
+      <div class="work-card-image"><img src="images/work-fashion.jpg" alt=""><div class="work-card-arrow">↗</div></div>
       <div class="work-card-info">
         <div class="work-card-title">Cove Studio.</div>
-        <div class="work-card-desc">Social system that turned a local label into a 7-figure DTC brand. Lookbook that lives on feed.</div>
+        <div class="work-card-desc">Social system that turned a local label into 7-figure DTC. Lookbook that lives on feed.</div>
       </div>
     </div>
-    <div class="work-card">
+    <div class="work-card inquiry-trigger" data-cursor="view">
       <div class="work-card-tag">Beauty / Community</div>
-      <div class="work-card-image"><img src="images/work-beauty.jpg" alt=""></div>
+      <div class="work-card-image"><img src="images/work-beauty.jpg" alt=""><div class="work-card-arrow">↗</div></div>
       <div class="work-card-info">
         <div class="work-card-title">Skin.</div>
-        <div class="work-card-desc">1200+ DMs/month managed. Community that sells itself. UGC engine built from comments.</div>
+        <div class="work-card-desc">1200+ DMs/month managed. Community that sells itself. UGC engine from comments.</div>
       </div>
     </div>
-    <div class="work-card">
+    <div class="work-card inquiry-trigger" data-cursor="view">
       <div class="work-card-tag">Tech / Social</div>
-      <div class="work-card-image"><img src="images/work-app.jpg" alt=""></div>
+      <div class="work-card-image"><img src="images/work-app.jpg" alt=""><div class="work-card-arrow">↗</div></div>
       <div class="work-card-info">
         <div class="work-card-title">After Hours.</div>
-        <div class="work-card-desc">Launch strategy for a social app. Waitlist of 14K from organic TikToks alone.</div>
+        <div class="work-card-desc">Launch strategy for social app. Waitlist 14K from organic TikToks alone.</div>
       </div>
     </div>
   </div>
@@ -526,36 +491,42 @@
 <section class="solutions">
   <div class="solutions-head">
     <h3>Solutions.</h3>
-    <p>Social-native. Culture-led. Expert-built. The capabilities that turn followers into business.</p>
+    <p>Social-native. Culture-led. Expert-built. The capabilities that turn followers into business. Click to expand.</p>
   </div>
-  <div class="solutions-list">
+  <div class="solutions-list" id="solutionsList">
     <div class="solution-row">
       <div class="solution-num">01</div>
       <div class="solution-title">Brand strategy & social positioning.</div>
-      <div class="solution-desc">Finding your voice, your people, and your unfair advantage on every platform that matters.</div>
+      <div class="solution-desc">Finding your voice, your people, and your unfair advantage.</div>
+      <div class="solution-plus">+</div>
+      <div class="solution-extra">Audits, positioning, content pillars, platform playbooks, tone of voice, competitor teardown. We start with why people should care.</div>
     </div>
     <div class="solution-row">
       <div class="solution-num">02</div>
       <div class="solution-title">Content that cuts through.</div>
-      <div class="solution-desc">Native, lo-fi, hi-fi — whatever the feed wants. Shot, edited, and written for how people actually consume.</div>
+      <div class="solution-desc">Native, lo-fi, hi-fi — whatever the feed wants right now.</div>
+      <div class="solution-plus">+</div>
+      <div class="solution-extra">Short-form, UGC, art direction, copywriting, shooting & editing for TikTok / IG / YouTube. Built for saves, shares, and sales — not just views.</div>
     </div>
     <div class="solution-row">
       <div class="solution-num">03</div>
       <div class="solution-title">Community & growth.</div>
-      <div class="solution-desc">We don't post and ghost. We build community, manage conversations, and turn comments into customers.</div>
+      <div class="solution-desc">We don't post and ghost. We turn comments into customers.</div>
+      <div class="solution-plus">+</div>
+      <div class="solution-extra">Community management, DM sales, influencer seeding, analytics, weekly growth sprints. 1.2K+ DMs/month handled with human judgment.</div>
     </div>
   </div>
 </section>
 
-<section class="cta" id="contact">
-  <a href="#work" class="cta-block">
+<section class="cta">
+  <button class="cta-block inquiry-trigger" data-cursor="inquiry">
     <h4>Work.</h4>
-    <div class="cta-link"><span class="cta-arrow">↗</span><span>Check our latest work on Instagram</span></div>
-  </a>
-  <a href="mailto:hello@kodasocial.co" class="cta-block" style="background:#7C3AED; color:white">
+    <div class="cta-link"><span class="cta-arrow">↗</span><span>Check latest work on Instagram → @koda.social</span></div>
+  </button>
+  <button class="cta-block inquiry-trigger" data-cursor="inquiry" style="background:#7C3AED; color:white">
     <h4>Contact.</h4>
-    <div class="cta-link"><span class="cta-arrow" style="border-color:white; background:white; color:#7C3AED">↗</span><span>Ready to talk? hello@kodasocial.co — +63 956 358 2746</span></div>
-  </a>
+    <div class="cta-link"><span class="cta-arrow" style="background:white; color:#7C3AED; border-color:white">↗</span><span>Ready to talk? Inquiry takes 45 sec — hello@kodasocial.co</span></div>
+  </button>
 </section>
 
 <footer>
@@ -565,71 +536,247 @@
       <h5>Talk</h5>
       <a href="mailto:hello@kodasocial.co">hello@kodasocial.co</a>
       <a href="tel:+639563582746">+63 956 358 2746</a>
-      <p style="margin-top:16px; opacity:0.5">Response time: under 2 hours in PH daytime.</p>
+      <p style="margin-top:12px; opacity:0.5">Response time: under 2 hours PH daytime. We read every message.</p>
+      <button class="inquiry-trigger" style="margin-top:14px; border:1px solid rgba(255,255,255,0.2); padding:10px 16px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase">Start a project —</button>
     </div>
     <div class="footer-col">
       <h5>Find</h5>
-      <p>San Jose del Monte<br>Central Luzon<br>Philippines</p>
-      <p style="margin-top:12px">Remote worldwide<br>GMT+8</p>
+      <p>San Jose del Monte<br>Central Luzon, PH</p>
+      <p style="margin-top:8px">Remote worldwide<br>GMT+8 • EST overlap</p>
     </div>
     <div class="footer-col">
       <h5>Follow</h5>
-      <a href="#">Instagram @koda.social</a>
-      <a href="#">TikTok @koda.social</a>
-      <a href="#">LinkedIn /koda social</a>
-      <a href="mailto:hello@kodasocial.co" style="margin-top:18px; display:inline-block; border:1px solid rgba(255,255,255,0.2); padding:10px 16px; border-radius:999px; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; font-weight:800">Start a project</a>
+      <a href="#">Instagram — @koda.social</a>
+      <a href="#">TikTok — @koda.social</a>
+      <a href="#">LinkedIn — koda social</a>
+      <p style="margin-top:16px; font-size:11px; opacity:0.4">© 2026 koda social co. — lowercase intentional</p>
     </div>
   </div>
   <div class="footer-bottom">
     <span>© 2026 koda social co.</span>
-    <span>Social that matters — lowercase intentional</span>
+    <span>No empty spaces • All killer, no filler</span>
     <span>Made in Manila with taste</span>
   </div>
 </footer>
 
-<script>
-  // Rotating words like Huge
-  const spans = document.querySelectorAll('#switch span');
-  let i=0;
-  setInterval(()=>{
-    spans[i].classList.remove('active');
-    i=(i+1)%spans.length;
-    spans[i].classList.add('active');
-  }, 1600);
+<button class="float-inquiry inquiry-trigger" id="floatBtn" data-cursor="inquiry">
+  <span class="dot"></span><span>Inquiry</span>
+</button>
 
-  // Build infinite strip like Huge's image scroller
-  const stripImgs = [
-    'images/work-coffee.jpg',
-    'images/work-fashion.jpg',
-    'images/work-beauty.jpg',
-    'images/work-app.jpg',
-    'images/hero-k.jpg',
-    'images/showreel.jpg',
-  ];
-  const track = document.getElementById('stripTrack');
+<!-- INQUIRY MODAL POPOUT -->
+<div class="modal" id="inquiryModal">
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <div>
+        <h2>Let's<br>talk.</h2>
+        <p>Tell us about your brand. We reply within 2 hours in PH daytime. No spam, just real talk.</p>
+      </div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+
+    <form class="modal-form" id="inquiryForm">
+      <div class="form-row">
+        <div class="form-field"><label>Your name *</label><input type="text" name="name" placeholder="Juan Dela Cruz" required></div>
+        <div class="form-field"><label>Brand / Company *</label><input type="text" name="brand" placeholder="Cove Studio" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Email *</label><input type="email" name="email" placeholder="you@brand.com" required></div>
+        <div class="form-field"><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+63 956 358 2746"></div>
+      </div>
+      <div class="form-field">
+        <label>What do you need? *</label>
+        <select name="service" required>
+          <option value="" disabled selected>Select one</option>
+          <option>Social Strategy & Positioning</option>
+          <option>Content Creation (Short-form / UGC)</option>
+          <option>Community Management & Growth</option>
+          <option>Full-stack Social (All of the above)</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Monthly budget</label>
+        <select name="budget">
+          <option value="" disabled selected>Select range</option>
+          <option>Under ₱50K / $800</option>
+          <option>₱50K-100K / $800-1.7K</option>
+          <option>₱100K-250K / $1.7K-4.3K</option>
+          <option>₱250K+ / $4.3K+</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Tell us about your brand *</label>
+        <textarea name="message" placeholder="What do you sell? Who's your audience? What's not working on social right now?" required></textarea>
+      </div>
+      <button type="submit" class="form-submit"><span>Send inquiry → hello@kodasocial.co</span><span>↗</span></button>
+      <p style="font-size:10px; opacity:0.4; line-height:1.5; text-align:center">By sending, you agree we can email you back. No newsletter, no BS. Avg reply 2 hours.</p>
+    </form>
+
+    <div class="modal-success" id="modalSuccess">
+      <h3>Got it.<br>We'll reply<br>within 2 hours.</h3>
+      <p>Your inquiry is in our inbox at <b>hello@kodasocial.co</b>. We're checking DMs and emails now.<br><br>While you wait, stalk us on Instagram @koda.social — that's where we live.</p>
+      <button class="form-submit" style="margin-top:24px" onclick="closeModal()"><span>Back to site</span><span>✕</span></button>
+    </div>
+
+    <div class="modal-footer">
+      <span>koda • Manila → Worldwide</span>
+      <span>hello@kodasocial.co • +63 956 358 2746</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', ()=>{
+    const h=document.documentElement;
+    const scrolled=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
+    document.getElementById('progress').style.width=scrolled+'%';
+  });
+
+  // Custom cursor
+  const cursor=document.getElementById('cursor');
+  let mouseX=0, mouseY=0, curX=0, curY=0;
+  window.addEventListener('mousemove', e=>{
+    mouseX=e.clientX; mouseY=e.clientY;
+  });
+  function animateCursor(){
+    curX+=(mouseX-curX)*0.18;
+    curY+=(mouseY-curY)*0.18;
+    cursor.style.transform=`translate(${curX}px, ${curY}px)`;
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('[data-cursor]').forEach(el=>{
+    el.addEventListener('mouseenter', ()=> cursor.classList.add(el.dataset.cursor));
+    el.addEventListener('mouseleave', ()=> cursor.classList.remove('view','inquiry','hover'));
+  });
+  document.querySelectorAll('a, button, .work-card, .solution-row').forEach(el=>{
+    el.addEventListener('mouseenter', ()=> cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', ()=> cursor.classList.remove('hover'));
+  });
+
+  // Rotating words
+  const spans=document.querySelectorAll('#switch span');
+  let idx=0;
+  setInterval(()=>{
+    spans[idx].classList.remove('active');
+    idx=(idx+1)%spans.length;
+    spans[idx].classList.add('active');
+  }, 1500);
+  document.getElementById('switch').addEventListener('click', ()=>{
+    spans[idx].classList.remove('active');
+    idx=(idx+1)%spans.length;
+    spans[idx].classList.add('active');
+  });
+
+  // Strip builder + draggable
+  const stripImgs=['images/work-coffee.jpg','images/work-fashion.jpg','images/work-beauty.jpg','images/work-app.jpg','images/hero-k.jpg','images/showreel.jpg'];
+  const track=document.getElementById('stripTrack');
   function buildStrip(){
     track.innerHTML='';
-    for(let k=0;k<4;k++){
+    for(let k=0;k<6;k++){
       stripImgs.forEach(src=>{
         const div=document.createElement('div');
         div.className='strip-item';
-        div.innerHTML=`<img src="${src}" loading="lazy">`;
+        div.innerHTML=`<img src="${src}" loading="lazy" draggable="false">`;
         track.appendChild(div);
       });
     }
   }
   buildStrip();
+  // Drag
+  const strip=document.getElementById('strip');
+  let isDown=false, startX, scrollLeft, currentX=0, animId;
+  strip.addEventListener('mousedown', e=>{
+    isDown=true; strip.style.cursor='grabbing';
+    startX=e.pageX - strip.offsetLeft;
+    track.style.animation='none';
+    cancelAnimationFrame(animId);
+  });
+  strip.addEventListener('mouseleave', ()=>{ isDown=false; track.style.animation='scrollStrip 50s linear infinite'; });
+  strip.addEventListener('mouseup', ()=>{ isDown=false; strip.style.cursor='grab'; });
+  strip.addEventListener('mousemove', e=>{
+    if(!isDown) return;
+    e.preventDefault();
+    const x=e.pageX - strip.offsetLeft;
+    const walk=(x-startX)*1.5;
+    track.style.transform=`translateX(${currentX + walk}px)`;
+  });
+  strip.addEventListener('touchstart', e=>{
+    startX=e.touches[0].pageX - strip.offsetLeft;
+    track.style.animation='none';
+  });
+  strip.addEventListener('touchmove', e=>{
+    const x=e.touches[0].pageX - strip.offsetLeft;
+    const walk=(x-startX)*1.5;
+    track.style.transform=`translateX(${currentX + walk}px)`;
+  });
 
-  // Smooth scroll for work anchor
-  document.querySelectorAll('a[href^=\"#\"]').forEach(a=>{
-    a.addEventListener('click', e=>{
-      const id=a.getAttribute('href');
-      if(id.length>1){
-        e.preventDefault();
-        document.querySelector(id)?.scrollIntoView({behavior:'smooth'});
-      }
+  // Solutions accordion
+  document.querySelectorAll('.solution-row').forEach(row=>{
+    row.addEventListener('click', ()=>{
+      const active=document.querySelector('.solution-row.active');
+      if(active && active!==row) active.classList.remove('active');
+      row.classList.toggle('active');
     });
   });
+
+  // Inquiry modal
+  const modal=document.getElementById('inquiryModal');
+  const backdrop=document.getElementById('modalBackdrop');
+  const closeBtn=document.getElementById('modalClose');
+  const form=document.getElementById('inquiryForm');
+  const success=document.getElementById('modalSuccess');
+  function openModal(){
+    modal.classList.add('open');
+    document.body.style.overflow='hidden';
+    setTimeout(()=>{ document.querySelector('.modal-content input')?.focus(); }, 300);
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.style.overflow='';
+    setTimeout(()=>{ form.style.display='grid'; success.classList.remove('show'); form.reset(); }, 400);
+  }
+  document.querySelectorAll('.inquiry-trigger').forEach(el=> el.addEventListener('click', openModal));
+  backdrop.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', closeModal);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+  form.addEventListener('submit', e=>{
+    e.preventDefault();
+    const data=new FormData(form);
+    const subject=`Koda Inquiry — ${data.get('brand')} / ${data.get('service')}`;
+    const body=`Name: ${data.get('name')}%0D%0ABrand: ${data.get('brand')}%0D%0AEmail: ${data.get('email')}%0D%0APhone: ${data.get('phone')}%0D%0AService: ${data.get('service')}%0D%0ABudget: ${data.get('budget')}%0D%0A%0D%0AMessage:%0D%0A${data.get('message')}`;
+    // Open mailto
+    window.location.href=`mailto:hello@kodasocial.co?subject=${encodeURIComponent(subject)}&body=${body}`;
+    form.style.display='none';
+    success.classList.add('show');
+    // Auto close after 4s
+    setTimeout(closeModal, 5000);
+  });
+
+  // Auto popup after 12s once per session
+  if(!sessionStorage.getItem('koda_popup_shown')){
+    setTimeout(()=>{
+      if(!modal.classList.contains('open')){
+        openModal();
+        sessionStorage.setItem('koda_popup_shown','1');
+      }
+    }, 12000);
+  }
+
+  // Magnetic hero button
+  const heroCta=document.querySelector('.hero-cta');
+  if(heroCta){
+    heroCta.addEventListener('mousemove', e=>{
+      const rect=heroCta.getBoundingClientRect();
+      const x=e.clientX-rect.left-rect.width/2;
+      const y=e.clientY-rect.top-rect.height/2;
+      heroCta.style.transform=`translate(${x*0.2}px, ${y*0.3}px)`;
+    });
+    heroCta.addEventListener('mouseleave', ()=> heroCta.style.transform='translate(0,0)');
+  }
 </script>
 </body>
 </html>
